@@ -11,3 +11,231 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.background{
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  margin: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.window{
+  position: fixed;
+  width: 600px;
+  height: 350px;
+  margin-top: 130px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  top: 50px;
+  left: 29%;
+  background-color: white;
+  border-radius: 10px 10px 10px 10px;
+  overflow-y: auto;
+}
+
+.window::-webkit-scrollbar{
+  width: 7px;
+}
+
+.window::-webkit-scrollbar-track{
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+
+.window::-webkit-scrollbar-thumb{
+  background: gray;
+  border-radius: 25px;
+}
+
+.selectField_1{
+  background-color: white;
+  font-family: Arial;
+  font-size: 17px;
+  font-weight: 500;
+  color: black;
+  border: 1px gray solid;
+  box-shadow: 0.5px 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 400px;
+  height: 20px;
+  display: flex;
+  position: relative;
+  margin: 0 100px 0 0;
+  justify-content: space-between;
+  padding: 5px 5px;
+}
+
+.selectField_1:hover{
+  border: 0.8px dimgray solid;
+}
+
+.selectField_1:active{
+  transform: translateY(0.3px);
+}
+
+.search{
+  font-family: Arial;
+  font-size: 15px;
+  margin: 0 2px;
+  border: 0.2px black solid;
+  border-radius: 5px 0 5px 0;
+  height: 20px;
+  position: relative;
+}
+
+.dropdown{
+  width: 410px;
+  height: 200px;
+  justify-content: center;
+  position: relative;
+  border-radius: 5px;
+  outline: 2px black solid;
+  margin: 2px 102.5px;
+  max-height: 75px;
+  overflow-y: auto;
+}
+
+.list{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown::-webkit-scrollbar{
+  width: 7px;
+}
+
+.dropdown::-webkit-scrollbar-track{
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+
+.dropdown::-webkit-scrollbar-thumb{
+  background: gray;
+  border-radius: 25px;
+}
+
+.dropdown li{
+  margin: 2px;
+  background: white;
+}
+
+.dropdown li:hover{
+  cursor: pointer;
+  background: white;
+  border: 0.5px lightgray solid;
+  border-radius: 5px;
+}
+
+.dropdown li:active{
+  border: 0.3px gray solid;
+  border-radius: 4px;
+}
+
+.icon.rotate {
+  transition: transform 0.2s ease-in-out;
+}
+
+.icon.rotate.down {
+  transform: rotate(0deg);
+}
+
+.icon.rotate.up {
+  transform: rotate(180deg);
+}
+
+.label{
+  font-family: Arial;
+  font-size: 12px;
+  font-weight: 550;
+  color: gray;
+  position: relative;
+  margin: 3px 101px 0 101px;
+  padding: 0;
+}
+
+.label_field{
+  display: grid;
+}
+
+.button_submit{
+  font-family: Arial;
+  font-size: 15px;
+  margin-top: 10px;
+  justify-content: center;
+  margin-left: 45%;
+  background-color: black;
+  color: aliceblue;
+  text-shadow: black;
+  border: black;
+  border-radius: 0 4px 2px;
+  height: 33px;
+  width: 70px;
+  box-shadow: 1px 1px slategray;
+}
+
+.button_submit:hover{
+  background-color: dimgray;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 1px 1px black;
+}
+
+.button_submit:active{
+  background-color: dimgray;
+  transform: translateY(0.5px);
+}
+
+.button_submit:disabled{
+  color: darkgray;
+  background-color: black;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.error{
+  color: red;
+  font-size: 10px;
+  position: relative;
+  padding: 0;
+}
+
+.button_generate{
+  font-family: Arial;
+  font-size: 13px;
+  margin-top: 5px;
+  justify-content: center;
+  margin-left: 61%;
+  background-color: black;
+  color: aliceblue;
+  text-shadow: black;
+  border: black;
+  border-radius: 0 4px 2px;
+  height: 33px;
+  width: 100px;
+  box-shadow: 1px 1px slategray;
+}
+
+.button_generate:hover{
+  background-color: dimgray;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 1px 1px black;
+}
+
+.button_generate:active{
+  background-color: dimgray;
+  transform: translateY(0.5px);
+}
+
+.button_generate:disabled{
+  color: darkgray;
+  background-color: black;
+  transform: none;
+  cursor: not-allowed;
+}
