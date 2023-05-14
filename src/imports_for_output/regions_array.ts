@@ -5,7 +5,7 @@ export interface regionModel {
 
 
 // Этот массив должен получаться запросом с бэка
-export let list_of_cities: regionModel[] =  [{
+export let regions: regionModel[] =  [{
     id: 1,
     region: "Minsk"
 }, {

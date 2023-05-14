@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {mainObj_type, mainObject} from "../../MainObject/main_obj";
+import {mainObj_typeCreate, mainObject} from "../../MainObject/main_obj";
 import {useForm} from "react-hook-form";
 import {banSymbols} from "../checkValid";
 
@@ -18,7 +18,7 @@ export default function Login({setValid, field4and5Disabled}: disabled){
         register,
         formState:{errors, isValid},
         watch
-    } = useForm<mainObj_type>({
+    } = useForm<mainObj_typeCreate>({
         mode: "onBlur"
     })
 

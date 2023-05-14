@@ -1,19 +1,22 @@
 import React from 'react'
 import {regionModel} from "../../imports_for_output/regions_array";
-import {mainObject} from "../../MainObject/main_obj";
+import {mainObj_typeCreate} from "../../MainObject/main_obj";
+import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
+import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 
 interface listProps{
+    mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
     setField3Disabled: React.Dispatch<React.SetStateAction<boolean>>
     filteredList: regionModel[]
     setSelectedItem: React.Dispatch<React.SetStateAction<regionModel | null>>
     setInput: React.Dispatch<React.SetStateAction<string>>
     setDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
-export default function Dropdown_region({ setField3Disabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
+export default function Dropdown_region({ mainObj_which, setField3Disabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input: string) => {
-        mainObject.region = input;
+        mainObj_which.region = input;
     }
 
     // Формирование выпадающего списка из передаваемого из файла "region.tsx" отсортированного массива объектов в
