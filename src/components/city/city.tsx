@@ -1,65 +1,65 @@
-import Dropdown_region from "./dropdown_region";
-import {regions, regionModel} from "../../imports_for_output/regions_array";
+import Dropdown_city from "./city_dropdown";
+import {cities, cityModel} from "../../imports_for_output/cities_array";
 import React, {useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
-import {mainObj_typeCreate} from "../../MainObject/main_obj";
 
 interface Opened{
-    mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
-    regionDisabled: boolean
-    setAfterRegionDisabled: React.Dispatch<React.SetStateAction<boolean>>
+    mainObj_which: mainObj_typeSearch | mainObj_typeAddress
+    cityDisabled: boolean
+    setStreetDisabled: React.Dispatch<React.SetStateAction<boolean>>
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
-
 // Функция для реализации следующего функционала: при вводе каких-либо символов в строку поиска, выпадающий список
 // динамически меняется предлагая только те варианты, которые содержат в себе введенные символы
 // (пример: введено "Min" - выпадающий список будет содержать поля "Minsk", "Minnesota" и т.д)
-function filterList(items: regionModel[], text: string, selected: regionModel | null): regionModel[] {
+function filterList(items: cityModel[], text: string, selected: cityModel | null): cityModel[] {
     return items.filter((item) => {
-        if (selected && item.region.toLowerCase() === selected.region.toLowerCase()) {
+        if (selected && item.city.toLowerCase() === selected.city.toLowerCase()) {
             return true;
         }
-        return item.region.toLowerCase().includes(text.toLowerCase());
+        return item.city.toLowerCase().includes(text.toLowerCase());
     });
 }
 
-//Выбранный элемент хранится в selectedItem
-// Функция создания поля "Область". Привязанный к ней выпадающий список находится в файле "dropdown_region.ts".
-// При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае область))
+// Выбранный элемент хранится в selectedItem
+// Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
+// При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function Region({ mainObj_which, setAfterRegionDisabled, regionDisabled, open, setOpen}: Opened){
-
+export default function City({mainObj_which, open, setOpen, cityDisabled, setStreetDisabled}: Opened){
     const [input, setInput] = useState('')
 
-    const [selectedItem, setSelectedItem] = useState<regionModel | null>(null)
+    const [selectedItem, setSelectedItem] = useState<cityModel | null>(null)
 
     const filteredList = useMemo(() =>
-        filterList(regions, input, selectedItem), [regions, input, selectedItem])
-
-    const handleInputBlur = () => {
-        setOpen(false)
-    }
+        filterList(cities, input, selectedItem), [cities, input, selectedItem])
 
     return (
-        <div>
+        <form onSubmit={(event) => {
+            event.preventDefault();
+        }
+        }>
             <div className="label_field">
                 <label className="label">
-                    Область
+                    Город
                     <input
-                        disabled={regionDisabled}
+                        disabled={cityDisabled}
                         type="text"
                         className="selectField_1"
-                        placeholder="Выберите область"
+                        placeholder="Выберите город"
                         value={input}
-                        onChange={(event) => setInput(event.target.value)}
+                        onChange={(event) => {
+                            setInput(event.target.value)
+                            setOpen(true)
+                        }}
                         onClick={(event) => {
                             event.preventDefault();
                             setOpen(true);
-                            setInput("")
+                            setInput("");
                         }
-                    }
+                        }
+                        style={{pointerEvents : cityDisabled ? 'none' : 'inherit'}}
                     >
                     </input>
                 </label>
@@ -67,15 +67,15 @@ export default function Region({ mainObj_which, setAfterRegionDisabled, regionDi
             <div>
                 {open &&
                     <div className="dropdown">
-                        <Dropdown_region
+                        <Dropdown_city
                             mainObj_which={mainObj_which}
-                            setField3Disabled={setAfterRegionDisabled}
+                            setStreetDisabled={setStreetDisabled}
                             filteredList={filteredList}
                             setSelectedItem={setSelectedItem}
                             setInput={setInput}
                             setDropdownOpen={setOpen} />
                     </div>}
             </div>
-        </div>
+        </form>
     )
 }
