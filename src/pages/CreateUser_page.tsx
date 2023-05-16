@@ -41,6 +41,10 @@ export function CreateUserPage() {
         }
     }
 
+    const [inputRegion, setInputRegion] = useState("")
+
+    const [inputDistrict, setInputDistrict] = useState("")
+
     return (
         <form onSubmit={(event) => {
             event.preventDefault()
@@ -53,15 +57,40 @@ export function CreateUserPage() {
             }} className="background"
             />
             <div className="window">
-                <Role open={openRole} setOpen={setOpenRole} setField2Disabled={setRegionDisabled}/>
-                <Region mainObj_which={mainObject} open={openRegion} setOpen={setOpenRegion} regionDisabled={regionDisabled}
-                        setAfterRegionDisabled={setDistrictDisabled}/>
-                <District mainObj_which={mainObject} open={openDistrict} setOpen={setOpenDistrict} afterRegionDisabled={districtDisabled}
-                          setAfterDistrictDisabled={setLogAndPasDisabled}/>
+                <Role
+                    open={openRole}
+                    setOpen={setOpenRole}
+                    setField2Disabled={setRegionDisabled}
+                />
+                <Region
+                    inputRegion={inputRegion}
+                    setInputRegion={setInputRegion}
+                    setInputDistrict={setInputDistrict}
+                    mainObj_which={mainObject}
+                    open={openRegion}
+                    setOpen={setOpenRegion}
+                    regionDisabled={regionDisabled}
+                    setAfterRegionDisabled={setDistrictDisabled}
+                />
+                <District
+                    inputDistrict={inputDistrict}
+                    setInputDistrict={setInputDistrict}
+                    mainObj_which={mainObject}
+                    open={openDistrict}
+                    setOpen={setOpenDistrict}
+                    afterRegionDisabled={districtDisabled}
+                    setAfterDistrictDisabled={setLogAndPasDisabled}
+                />
                 <Login field4and5Disabled={LogAndPasDisabled} setValid={setValid_Login}/>
                 <Password field4and5Disabled={LogAndPasDisabled} setValid={setValid_password}/>
                 <button
-                    disabled={!isValid(valid_password, valid_login)}
+                    disabled={regionDisabled
+                        || districtDisabled
+                        || LogAndPasDisabled
+                        || !valid_login
+                        || !valid_password
+                        || inputDistrict.length == 0
+                        || inputRegion.length == 0}
                     className="button_submit"
                     onClick={(event) => {
                         handleSubmit()

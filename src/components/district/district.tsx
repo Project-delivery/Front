@@ -1,14 +1,21 @@
 import Dropdown_district from "./dropdown_district";
 import {districts, districtModel} from "../../imports_for_output/districts_array";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
-import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import {mainObj_address, mainObj_typeAddress} from "../../MainObject/mainObj_address";
 import {mainObj_typeCreate} from "../../MainObject/main_obj";
+import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface Opened{
+    inputDistrict: string
+    setInputDistrict: React.Dispatch<React.SetStateAction<string>>
+    setInputCity ?: React.Dispatch<React.SetStateAction<string>>
+    setCityDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
     afterRegionDisabled: boolean
-    setAfterDistrictDisabled: React.Dispatch<React.SetStateAction<boolean>>
+    setAfterDistrictDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
+    setStreetDisabled ? : React.Dispatch<React.SetStateAction<boolean>>
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -28,13 +35,39 @@ function filterList(items: districtModel[], text: string, selected: districtMode
 // Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function District({ mainObj_which, setAfterDistrictDisabled, afterRegionDisabled, open, setOpen}: Opened){
-    const [input, setInput] = useState('')
-
+export default function District({ setCityDisabled, setInputCity, inputDistrict, setInputDistrict, setStreetDisabled, mainObj_which, setAfterDistrictDisabled, afterRegionDisabled, open, setOpen}: Opened){
     const [selectedItem, setSelectedItem] = useState<districtModel | null>(null)
 
     const filteredList = useMemo(() =>
-        filterList(districts, input, selectedItem), [districts, input, selectedItem])
+        filterList(districts, inputDistrict, selectedItem), [districts, inputDistrict, selectedItem])
+
+    useEffect(() => {
+        if (!mainObj_address.region) {
+            setInputDistrict('');
+        }
+    });
+
+    useEffect(() => {
+        setInputDistrict(inputDistrict);
+    });
+
+    const handleClick = (event: any) => {
+        event.preventDefault();
+        setOpen(true);
+        setInputDistrict("")
+        if(setCityDisabled != undefined){
+            setCityDisabled(true)
+        }
+        if(setInputCity){
+            setInputCity("")
+        }
+        if(setAfterDistrictDisabled != undefined){
+            setAfterDistrictDisabled(true)
+        }
+        if(setStreetDisabled != undefined){
+            setStreetDisabled(true)
+        }
+    }
 
     return (
         <form onSubmit={(event) => {
@@ -44,21 +77,15 @@ export default function District({ mainObj_which, setAfterDistrictDisabled, afte
             <div className="label_field">
                 <label className="label">
                     Район
-                    <input
-                        disabled={afterRegionDisabled}
-                        type="text"
+                    <span
                         className="selectField_1"
                         placeholder="Выберите район"
-                        value={input}
-                        onChange={(event) => setInput(event.target.value)}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setOpen(true);
-                            setInput("");
-                        }
-                    }
+                        style={{color: inputDistrict.length > 0 ? "black" : "gray"}}
+                        onClick={afterRegionDisabled ? undefined : (event) => handleClick(event)}
                     >
-                    </input>
+                        {inputDistrict.length == 0 ? "Выберите район" : inputDistrict}
+                        <FontAwesomeIcon className={`icon ${open ? "open" : "closed"}`} icon={faChevronDown} />
+                    </span>
                 </label>
             </div>
             <div>
@@ -69,7 +96,7 @@ export default function District({ mainObj_which, setAfterDistrictDisabled, afte
                             setField4and5Disabled={setAfterDistrictDisabled}
                             filteredList={filteredList}
                             setSelectedItem={setSelectedItem}
-                            setInput={setInput}
+                            setInput={setInputDistrict}
                             setDropdownOpen={setOpen} />
                     </div>}
             </div>

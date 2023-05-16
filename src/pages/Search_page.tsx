@@ -20,6 +20,8 @@ export function Search_page() {
 
     const [afterDistrictDisabled, setAfterDistrictDisabled] = useState(true)
 
+    const [cityDisabled, setCityDisabled] = useState(true)
+
     const [streetDisabled, setStreetDisabled] = useState(true)
 
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
@@ -38,6 +40,12 @@ export function Search_page() {
         }
     }
 
+    const [inputRegion, setInputRegion] = useState("")
+
+    const [inputDistrict, setInputDistrict] = useState("")
+
+    const [inputCity, setInputCity] = useState("")
+
     return(
         <form onSubmit={(event) => {
             event.preventDefault();
@@ -50,10 +58,41 @@ export function Search_page() {
             }}  className="background"
             />
             <div className="window">
-                <Region mainObj_which={mainObj_search} open={openRegion} setOpen={setOpenRegion} regionDisabled={regionDisabled} setAfterRegionDisabled={setAfterRegionDisabled} />
-                <District mainObj_which={mainObj_search} open={openDistrict} setOpen={setOpenDistrict} afterRegionDisabled={afterRegionDisabled} setAfterDistrictDisabled={setAfterDistrictDisabled} />
-                <City mainObj_which={mainObj_search} open={openCity} setOpen={setOpenCity} cityDisabled={afterDistrictDisabled} setStreetDisabled={setStreetDisabled} />
+                <Region
+                    inputRegion={inputRegion}
+                    setInputRegion={setInputRegion}
+                    setInputDistrict={setInputDistrict}
+                    setInputCity={setInputCity}
+                    mainObj_which={mainObj_search}
+                    open={openRegion}
+                    setOpen={setOpenRegion}
+                    regionDisabled={regionDisabled}
+                    setAfterRegionDisabled={setAfterRegionDisabled}
+                />
+                <District
+                    inputDistrict={inputDistrict}
+                    setInputDistrict={setInputDistrict}
+                    setInputCity={setInputCity}
+                    setCityDisabled={setCityDisabled}
+                    mainObj_which={mainObj_search}
+                    open={openDistrict}
+                    setOpen={setOpenDistrict}
+                    afterRegionDisabled={afterRegionDisabled}
+                    setAfterDistrictDisabled={setAfterDistrictDisabled}
+                />
+                <City
+                    inputCity={inputCity}
+                    setInputCity={setInputCity}
+                    mainObj_which={mainObj_search}
+                    open={openCity}
+                    setOpen={setOpenCity}
+                    cityDisabled={afterDistrictDisabled}
+                    setStreetDisabled={setStreetDisabled}
+                />
                 <button
+                    disabled={afterRegionDisabled
+                        || inputCity.length == 0
+                        || inputCity != mainObj_search.city}
                     className="button_submit"
                     onClick={() => handleSubmit()}
                 >

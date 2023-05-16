@@ -5,6 +5,8 @@ import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 
 interface Opened{
+    inputCity: string
+    setInputCity: React.Dispatch<React.SetStateAction<string>>
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress
     cityDisabled: boolean
     setStreetDisabled: React.Dispatch<React.SetStateAction<boolean>>
@@ -27,13 +29,11 @@ function filterList(items: cityModel[], text: string, selected: cityModel | null
 // Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function City({mainObj_which, open, setOpen, cityDisabled, setStreetDisabled}: Opened){
-    const [input, setInput] = useState('')
-
+export default function City({inputCity, setInputCity, mainObj_which, open, setOpen, cityDisabled, setStreetDisabled}: Opened){
     const [selectedItem, setSelectedItem] = useState<cityModel | null>(null)
 
     const filteredList = useMemo(() =>
-        filterList(cities, input, selectedItem), [cities, input, selectedItem])
+        filterList(cities, inputCity, selectedItem), [cities, inputCity, selectedItem])
 
     return (
         <form onSubmit={(event) => {
@@ -48,15 +48,16 @@ export default function City({mainObj_which, open, setOpen, cityDisabled, setStr
                         type="text"
                         className="selectField_1"
                         placeholder="Выберите город"
-                        value={input}
+                        value={cityDisabled ? "" : inputCity}
                         onChange={(event) => {
-                            setInput(event.target.value)
+                            setInputCity(event.target.value)
                             setOpen(true)
                         }}
                         onClick={(event) => {
                             event.preventDefault();
                             setOpen(true);
-                            setInput("");
+                            setInputCity("");
+                            setStreetDisabled(true)
                         }
                         }
                         style={{pointerEvents : cityDisabled ? 'none' : 'inherit'}}
@@ -72,7 +73,7 @@ export default function City({mainObj_which, open, setOpen, cityDisabled, setStr
                             setStreetDisabled={setStreetDisabled}
                             filteredList={filteredList}
                             setSelectedItem={setSelectedItem}
-                            setInput={setInput}
+                            setInput={setInputCity}
                             setDropdownOpen={setOpen} />
                     </div>}
             </div>

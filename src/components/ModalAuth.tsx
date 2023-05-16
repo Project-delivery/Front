@@ -1,8 +1,10 @@
-import React from 'react'
-import {useForm} from "react-hook-form";
+import React, {useState} from 'react'
 import {banSymbols} from "./checkValid";
 import {userModel} from "../MainObject/UserDescription";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faEye} from "@fortawesome/free-solid-svg-icons";
+
 
 // Объект, хранящий в себе валидные логин и пароль пользователя
 let user: userModel = {
@@ -14,97 +16,94 @@ let user: userModel = {
 //При нажатии кнопки "Next" указанные логин и пароль передаются объекту users
 //Ввод проверяется на наличие символов, пустая строка спровоцирует ошибку
 export function ModalAuth(){
-
-    const {
-        register,
-        formState:{errors, isValid},
-        handleSubmit,
-        reset
-    } = useForm<userModel>({
-        mode: "onBlur"
-    })
-    const onSubmit = (data: userModel) => {
-        alert(JSON.stringify(data))
-        user = data
-        reset()
+    const onSubmit = (login: string, password: string, event: any) => {
+        event.preventDefault()
+        user.login = login
+        user.password = password
         console.log('Login: ')
         console.log(user.login)
         console.log('Password: ')
         console.log(user.password)
+        if(true){
+            navigate("/admin_window")
+        }
+    }
+
+    const [login, setLogin] = useState('')
+
+    const [password, setPassword] = useState('')
+
+    const navigate = useNavigate()
+
+    const checkValidLogin = (Login: string) => {
+        if(banSymbols(Login)){
+            return banSymbols(Login)
+        }
+        else {
+            return true
+        }
+    }
+
+    const checkValidPassword = (Password: string) => {
+        if(banSymbols(Password)){
+            return banSymbols(Password)
+        }
+        else {
+            return true
+        }
+    }
+
+    const [eyeChecked, setEyeChecked] = useState(false)
+
+    const eyeHandler = () => {
+        setEyeChecked(prev => !prev)
     }
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-        >
+        <form>
             <div
                 className="background_authorize"
             />
                 <div
                     className="window_authorize"
                 >
-                    <h1 className="title_authorize">Sign in</h1>
+                    <h1 className="title_authorize">Войти</h1>
                     <label className="label_authorize">
                         Логин
                         <input
-                            {...register('login', {
-                                required: "Поле не должно быть пустым",
-                                maxLength: {
-                                    value: 20,
-                                    message: "Логин не должен включать больше 20 символов"
-                                },
-                                minLength: {
-                                    value: 5,
-                                    message: "Логин не должен включать меньше 5 символов"
-                                },
-                                validate: {
-                                    message: banSymbols,
-                                },
-                            })}
                             type="text"
                             className="input_authorize"
                             placeholder="Введите логин..."
+                            onChange={(event) => setLogin(event.target.value)}
                         />
                     </label>
                     <div
                         className="error_authorize"
                     >
-                        {errors?.login && <p>{errors?.login?.message?.toString() || "Error!"}</p>}
+                        {checkValidLogin(login)}
                     </div>
                     <label className="label_authorize">
                         Пароль
                         <input
-                            {...register('password', {
-                                required: "Поле не должно быть пустым",
-                                maxLength: {
-                                    value: 32,
-                                    message: "Пароль должен включать не более 32 символов"
-                                },
-                                minLength: {
-                                    value: 8,
-                                    message: "Пароль должен включать не менее 8 символов"
-                                },
-                                validate: {
-                                    message: banSymbols
-                                }
-                            })}
-                            type="password"
+                            type={eyeChecked ? "text" : "password"}
                             className="input_authorize"
                             placeholder="Введите пароль..."
+                            onChange={(event) => setPassword(event.target.value)}
                         />
+                        <FontAwesomeIcon className="eye" icon={faEye} onClick={() => eyeHandler()}/>
                     </label>
                     <div
                         className="error_authorize"
                     >
-                        {errors?.password && <p>{errors?.password?.message?.toString() || "Error!"}</p>}
+                        {checkValidPassword(password)}
                     </div>
-                    <Link
-                        to={isValid ? "/validator_window" : "#"}
-                        className="link"
-                        style={{height : 20, width : 100, marginLeft: 183, paddingBottom: 12}}
+                    <button
+                        className="button_submit"
+                        style={{width: 100, marginLeft: 201}}
+                        onClick={(event) => onSubmit(login, password, event)}
                     >
                         Подтвердить
-                    </Link>
+                    </button>
                 </div>
         </form>
     )

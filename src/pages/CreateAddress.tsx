@@ -47,6 +47,14 @@ export function CreateAddress(){
         }
     }
 
+    const [inputRegion, setInputRegion] = useState("")
+
+    const [inputDistrict, setInputDistrict] = useState("")
+
+    const [inputCity, setInputCity] = useState("")
+
+    const [inputStreet, setInputStreet] = useState("")
+
     return(
         <form onSubmit={(event) => {
             event.preventDefault();
@@ -59,11 +67,53 @@ export function CreateAddress(){
             }}  className="background"
             />
             <div className="window">
-                <Region mainObj_which={mainObj_address} open={openRegion} setOpen={setOpenRegion} regionDisabled={regionDisabled} setAfterRegionDisabled={setAfterRegionDisabled} />
-                <District mainObj_which={mainObj_address} open={openDistrict} setOpen={setOpenDistrict} afterRegionDisabled={afterRegionDisabled} setAfterDistrictDisabled={setAfterDistrictDisabled} />
-                <City mainObj_which={mainObj_address} open={openCity} setOpen={setOpenCity} cityDisabled={afterDistrictDisabled} setStreetDisabled={setStreetDisabled} />
-                <Street mainObj_which={mainObj_address} open={openStreet} setOpen={setOpenStreet} streetDisabled={streetDisabled} />
+                <Region
+                    inputRegion={inputRegion}
+                    setInputRegion={setInputRegion}
+                    setInputDistrict={setInputDistrict}
+                    setInputCity={setInputCity}
+                    setInputStreet={setInputStreet}
+                    setStreetDisabled={setStreetDisabled}
+                    setAfterDistrictDisabled={setAfterDistrictDisabled}
+                    mainObj_which={mainObj_address}
+                    open={openRegion}
+                    setOpen={setOpenRegion}
+                    regionDisabled={regionDisabled}
+                    setAfterRegionDisabled={setAfterRegionDisabled}
+                />
+                <District
+                    inputDistrict={inputDistrict}
+                    setInputDistrict={setInputDistrict}
+                    setStreetDisabled={setStreetDisabled}
+                    mainObj_which={mainObj_address}
+                    open={openDistrict}
+                    setOpen={setOpenDistrict}
+                    afterRegionDisabled={afterRegionDisabled}
+                    setAfterDistrictDisabled={setAfterDistrictDisabled}
+                />
+                <City
+                    inputCity={inputCity}
+                    setInputCity={setInputCity}
+                    mainObj_which={mainObj_address}
+                    open={openCity}
+                    setOpen={setOpenCity}
+                    cityDisabled={afterDistrictDisabled}
+                    setStreetDisabled={setStreetDisabled}
+                />
+                <Street
+                    inputStreet={inputStreet}
+                    setInputStreet={setInputStreet}
+                    mainObj_which={mainObj_address}
+                    open={openStreet}
+                    setOpen={setOpenStreet}
+                    streetDisabled={streetDisabled}
+                />
                 <button
+                    disabled={regionDisabled
+                        || afterRegionDisabled
+                        || afterDistrictDisabled
+                        || streetDisabled
+                        || inputStreet.length == 0}
                     className="button_submit"
                     onClick={() => handleSubmit()}
                 >

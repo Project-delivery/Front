@@ -2,10 +2,13 @@ import React from "react";
 import { useState } from "react";
 import {mainObj_address} from "../MainObject/mainObj_address";
 import {mainObj_typeAddress} from "../MainObject/mainObj_address";
+import {Requests_for_validator} from "../components/requests_for_validator";
+import {requests_for_validator} from "../imports_for_output/requests_for_validator";
 
 const decision = {
     YorN: "",
-    commentary: ""
+    commentary: "",
+    validatorID: 0
 }
 
 export const infoJSON : mainObj_typeAddress = {
@@ -34,9 +37,12 @@ export function ValidatorWindow() {
             decision.YorN = "Отказано"
         }
         decision.commentary = comm
+        decision.validatorID = 2
         alert(JSON.stringify(decision))
         alert(JSON.stringify(mainObj_address))
     }
+
+    const [selectedItem, setSelectedItem] = useState<mainObj_typeAddress | null>(null)
 
     return (
         <>
@@ -70,10 +76,8 @@ export function ValidatorWindow() {
                 >
                     Сохранить
                 </button>
-                <div
-                    className="get_infoJSON"
-                    defaultValue={JSON.stringify(mainObj_address)}
-                >
+                <div className="get_infoJSON">
+                    <Requests_for_validator selectedItem={selectedItem} setSelectedItem={setSelectedItem} list={requests_for_validator}/>
                 </div>
                 <textarea
                     className="commentary"

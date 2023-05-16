@@ -6,7 +6,7 @@ import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 
 interface listProps{
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
-    setField4and5Disabled: React.Dispatch<React.SetStateAction<boolean>>
+    setField4and5Disabled: React.Dispatch<React.SetStateAction<boolean>> | undefined
     filteredList: districtModel[]
     setSelectedItem: React.Dispatch<React.SetStateAction<districtModel | null>>
     setInput: React.Dispatch<React.SetStateAction<string>>
@@ -28,7 +28,9 @@ export default function Dropdown_district({ mainObj_which, setField4and5Disabled
             setInput(elem.district)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
             setMainObject(elem.district, elem.id)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
-            setField4and5Disabled(false)     // разблокировка следующих полей ("Логин" и "Пароль")
+            if(setField4and5Disabled){
+                setField4and5Disabled(false) // разблокировка следующих полей ("Логин" и "Пароль")
+            }
         }
         }>
             {elem.district}

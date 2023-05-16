@@ -4,6 +4,8 @@ import Dropdown_street from "./street_dropdown";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 
 interface Opened{
+    inputStreet: string
+    setInputStreet: React.Dispatch<React.SetStateAction<string>>
     mainObj_which : mainObj_typeAddress
     streetDisabled: boolean
     open: boolean
@@ -25,13 +27,11 @@ function filterList(items: streetModel[], text: string, selected: streetModel | 
 // Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function Street({mainObj_which, streetDisabled, open, setOpen}: Opened){
-    const [input, setInput] = useState('')
-
+export default function Street({inputStreet, setInputStreet, mainObj_which, streetDisabled, open, setOpen}: Opened){
     const [selectedItem, setSelectedItem] = useState<streetModel | null>(null)
 
     const filteredList = useMemo(() =>
-        filterList(streets, input, selectedItem), [streets, input, selectedItem])
+        filterList(streets, inputStreet, selectedItem), [streets, inputStreet, selectedItem])
 
     return (
         <form onSubmit={(event) => {
@@ -40,21 +40,21 @@ export default function Street({mainObj_which, streetDisabled, open, setOpen}: O
         }>
             <div className="label_field">
                 <label className="label">
-                    Город
+                    Улица
                     <input
                         disabled={streetDisabled}
                         type="text"
                         className="selectField_1"
-                        placeholder="Выберите город"
-                        value={input}
+                        placeholder="Введите улицу"
+                        value={streetDisabled ? "" : inputStreet}
                         onChange={(event) => {
-                            setInput(event.target.value)
+                            setInputStreet(event.target.value)
                             setOpen(true)
                         }}
                         onClick={(event) => {
                             event.preventDefault();
                             setOpen(true);
-                            setInput("");
+                            setInputStreet("");
                         }
                         }
                         style={{pointerEvents : streetDisabled ? 'none' : 'inherit'}}
@@ -69,7 +69,7 @@ export default function Street({mainObj_which, streetDisabled, open, setOpen}: O
                             mainObj_which={mainObj_which}
                             filteredList={filteredList}
                             setSelectedItem={setSelectedItem}
-                            setInput={setInput}
+                            setInput={setInputStreet}
                             setDropdownOpen={setOpen} />
                     </div>}
             </div>

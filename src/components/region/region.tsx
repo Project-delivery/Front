@@ -4,11 +4,20 @@ import React, {useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 import {mainObj_typeCreate} from "../../MainObject/main_obj";
+import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface Opened{
+    inputRegion: string
+    setInputDistrict: React.Dispatch<React.SetStateAction<string>>
+    setInputCity ?: React.Dispatch<React.SetStateAction<string>>
+    setInputStreet ?: React.Dispatch<React.SetStateAction<string>>
+    setInputRegion: React.Dispatch<React.SetStateAction<string>>
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
     regionDisabled: boolean
     setAfterRegionDisabled: React.Dispatch<React.SetStateAction<boolean>>
+    setAfterDistrictDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
+    setStreetDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -29,17 +38,32 @@ function filterList(items: regionModel[], text: string, selected: regionModel | 
 // Функция создания поля "Область". Привязанный к ней выпадающий список находится в файле "dropdown_region.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае область))
 // передаются в состояние selectedItem.
-export default function Region({ mainObj_which, setAfterRegionDisabled, regionDisabled, open, setOpen}: Opened){
-
-    const [input, setInput] = useState('')
-
+export default function Region({setInputStreet, setInputDistrict, setInputCity, inputRegion, setInputRegion, setAfterDistrictDisabled, setStreetDisabled, mainObj_which, setAfterRegionDisabled, regionDisabled, open, setOpen}: Opened){
     const [selectedItem, setSelectedItem] = useState<regionModel | null>(null)
 
     const filteredList = useMemo(() =>
-        filterList(regions, input, selectedItem), [regions, input, selectedItem])
+        filterList(regions, inputRegion, selectedItem), [regions, inputRegion, selectedItem])
 
-    const handleInputBlur = () => {
-        setOpen(false)
+    const handleClick = (event: any) => {
+        event.preventDefault();
+        setOpen(true);
+        setInputRegion("")
+        setAfterRegionDisabled(true)
+        if(setInputCity != undefined){
+            setInputCity("")
+        }
+        if(setInputDistrict != undefined){
+            setInputDistrict("")
+        }
+        if(setInputStreet != undefined){
+            setInputStreet("")
+        }
+        if(setAfterDistrictDisabled != undefined){
+            setAfterDistrictDisabled(true)
+        }
+        if(setStreetDisabled != undefined){
+            setStreetDisabled(true)
+        }
     }
 
     return (
@@ -47,21 +71,16 @@ export default function Region({ mainObj_which, setAfterRegionDisabled, regionDi
             <div className="label_field">
                 <label className="label">
                     Область
-                    <input
-                        disabled={regionDisabled}
-                        type="text"
+                    <span
                         className="selectField_1"
                         placeholder="Выберите область"
-                        value={input}
-                        onChange={(event) => setInput(event.target.value)}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setOpen(true);
-                            setInput("")
-                        }
-                    }
+                        defaultValue={""}
+                        style={{color: inputRegion.length > 0 ? "black" : "gray"}}
+                        onClick={regionDisabled ? undefined : (event) => handleClick(event)}
                     >
-                    </input>
+                        {inputRegion.length == 0 ? "Выберите область" : inputRegion}
+                        <FontAwesomeIcon className={`icon ${open ? "open" : "closed"}`} icon={faChevronDown} />
+                    </span>
                 </label>
             </div>
             <div>
@@ -72,7 +91,7 @@ export default function Region({ mainObj_which, setAfterRegionDisabled, regionDi
                             setField3Disabled={setAfterRegionDisabled}
                             filteredList={filteredList}
                             setSelectedItem={setSelectedItem}
-                            setInput={setInput}
+                            setInput={setInputRegion}
                             setDropdownOpen={setOpen} />
                     </div>}
             </div>
