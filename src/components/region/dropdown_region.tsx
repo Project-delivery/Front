@@ -12,7 +12,7 @@ interface listProps{
     setInput: React.Dispatch<React.SetStateAction<string>>
     setDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
-export default function Dropdown_region({ mainObj_which, setField3Disabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
+export default function Dropdown_region({mainObj_which, setField3Disabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input: string) => {
@@ -25,7 +25,7 @@ export default function Dropdown_region({ mainObj_which, setField3Disabled, filt
         <li key={elem.id} onClick={() => {
                 setSelectedItem(elem)           // При нажатии на кнопку, выбранный объект передается в selectedItem,
                 setInput(elem.region)           // input(то есть значение в поле для ввода) устанавливается на значение компонента,
-            setDropdownOpen(false)        // список закрывается,
+                setDropdownOpen(false)        // список закрывается,
                 setMainObject(elem.region)      // данные передаются в финальный объект, в данном случае нет id, так как тут region - не минимальная единица адреса
                 setField3Disabled(false)  // разблокировка следующего поля ("Район")
             }

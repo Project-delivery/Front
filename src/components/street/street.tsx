@@ -2,11 +2,15 @@ import React, {useMemo, useState} from "react";
 import {streets, streetModel} from "../../imports_for_output/streets_array";
 import Dropdown_street from "./street_dropdown";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 
 interface Opened{
+    setDropdownHouseOpen ?: React.Dispatch<React.SetStateAction<boolean>>
     inputStreet: string
+    setInputHouse?: React.Dispatch<React.SetStateAction<string>>
+    setHouseDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
     setInputStreet: React.Dispatch<React.SetStateAction<string>>
-    mainObj_which : mainObj_typeAddress
+    mainObj_which : mainObj_typeAddress | mainObj_typeSearch
     streetDisabled: boolean
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -27,11 +31,26 @@ function filterList(items: streetModel[], text: string, selected: streetModel | 
 // Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function Street({inputStreet, setInputStreet, mainObj_which, streetDisabled, open, setOpen}: Opened){
+export default function Street({setDropdownHouseOpen, setHouseDisabled, setInputHouse, inputStreet, setInputStreet, mainObj_which, streetDisabled, open, setOpen}: Opened){
     const [selectedItem, setSelectedItem] = useState<streetModel | null>(null)
 
     const filteredList = useMemo(() =>
         filterList(streets, inputStreet, selectedItem), [streets, inputStreet, selectedItem])
+
+    const handleClick = (event: any) => {
+        event.preventDefault();
+        setOpen(true);
+        if(setInputHouse != undefined){
+            setInputHouse("")
+        }
+        if(setDropdownHouseOpen != undefined){
+            setDropdownHouseOpen(false)
+        }
+        if(setHouseDisabled != undefined){
+            setHouseDisabled(true)
+        }
+        setInputStreet("");
+    }
 
     return (
         <form onSubmit={(event) => {
@@ -51,13 +70,11 @@ export default function Street({inputStreet, setInputStreet, mainObj_which, stre
                             setInputStreet(event.target.value)
                             setOpen(true)
                         }}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setOpen(true);
-                            setInputStreet("");
-                        }
-                        }
-                        style={{pointerEvents : streetDisabled ? 'none' : 'inherit'}}
+                        onClick={(event) => handleClick(event)}
+                        style={{
+                            pointerEvents : streetDisabled ? 'none' : 'inherit',
+                            border: inputStreet.length > 0 ? "2px black solid" : "1px black solid"
+                    }}
                     >
                     </input>
                 </label>
@@ -66,6 +83,7 @@ export default function Street({inputStreet, setInputStreet, mainObj_which, stre
                 {open &&
                     <div className="dropdown">
                         <Dropdown_street
+                            setHouseDisabled={setHouseDisabled}
                             mainObj_which={mainObj_which}
                             filteredList={filteredList}
                             setSelectedItem={setSelectedItem}

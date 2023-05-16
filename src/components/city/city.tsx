@@ -5,6 +5,11 @@ import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 
 interface Opened{
+    setDropdownStreetOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setDropdownHouseOpen ?: React.Dispatch<React.SetStateAction<boolean>>
+    setInputStreet: React.Dispatch<React.SetStateAction<string>>
+    setInputHouse?: React.Dispatch<React.SetStateAction<string>>
+    setHouseDisabled?: React.Dispatch<React.SetStateAction<boolean>>
     inputCity: string
     setInputCity: React.Dispatch<React.SetStateAction<string>>
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress
@@ -29,11 +34,32 @@ function filterList(items: cityModel[], text: string, selected: cityModel | null
 // Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function City({inputCity, setInputCity, mainObj_which, open, setOpen, cityDisabled, setStreetDisabled}: Opened){
+export default function City(
+    {setDropdownStreetOpen, setDropdownHouseOpen, setInputStreet, setInputHouse, setHouseDisabled, inputCity, setInputCity, mainObj_which, open, setOpen, cityDisabled, setStreetDisabled}: Opened){
     const [selectedItem, setSelectedItem] = useState<cityModel | null>(null)
 
     const filteredList = useMemo(() =>
         filterList(cities, inputCity, selectedItem), [cities, inputCity, selectedItem])
+
+    const handleClick = (event: any) => {
+        event.preventDefault();
+        setOpen(true);
+        setInputCity("");
+        setStreetDisabled(true)
+        setInputStreet("")
+        if(setDropdownStreetOpen != undefined){
+            setDropdownStreetOpen(false)
+        }
+        if(setDropdownHouseOpen != undefined){
+            setDropdownHouseOpen(false)
+        }
+        if(setInputHouse != undefined){
+            setInputHouse("")
+        }
+        if(setHouseDisabled != undefined){
+            setHouseDisabled(true)
+        }
+    }
 
     return (
         <form onSubmit={(event) => {
@@ -53,14 +79,10 @@ export default function City({inputCity, setInputCity, mainObj_which, open, setO
                             setInputCity(event.target.value)
                             setOpen(true)
                         }}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setOpen(true);
-                            setInputCity("");
-                            setStreetDisabled(true)
-                        }
-                        }
-                        style={{pointerEvents : cityDisabled ? 'none' : 'inherit'}}
+                        onClick={(event) => handleClick(event)}
+                        style={{
+                            pointerEvents : cityDisabled ? 'none' : 'inherit',
+                            border: inputCity.length > 0 ? "2px black solid" : "1px black solid"}}
                     >
                     </input>
                 </label>

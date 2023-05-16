@@ -8,16 +8,22 @@ import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface Opened{
+    setDropdownDistrictOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setDropdownCityOpen ?: React.Dispatch<React.SetStateAction<boolean>>
+    setDropdownStreetOpen ?: React.Dispatch<React.SetStateAction<boolean>>
+    setDropdownHouseOpen ?: React.Dispatch<React.SetStateAction<boolean>>
     inputRegion: string
     setInputDistrict: React.Dispatch<React.SetStateAction<string>>
     setInputCity ?: React.Dispatch<React.SetStateAction<string>>
     setInputStreet ?: React.Dispatch<React.SetStateAction<string>>
     setInputRegion: React.Dispatch<React.SetStateAction<string>>
+    setInputHouse?: React.Dispatch<React.SetStateAction<string>>
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
     regionDisabled: boolean
     setAfterRegionDisabled: React.Dispatch<React.SetStateAction<boolean>>
     setAfterDistrictDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
     setStreetDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
+    setHouseDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -38,7 +44,27 @@ function filterList(items: regionModel[], text: string, selected: regionModel | 
 // Функция создания поля "Область". Привязанный к ней выпадающий список находится в файле "dropdown_region.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае область))
 // передаются в состояние selectedItem.
-export default function Region({setInputStreet, setInputDistrict, setInputCity, inputRegion, setInputRegion, setAfterDistrictDisabled, setStreetDisabled, mainObj_which, setAfterRegionDisabled, regionDisabled, open, setOpen}: Opened){
+export default function Region(
+    {
+        setDropdownDistrictOpen,
+        setDropdownHouseOpen,
+        setDropdownStreetOpen,
+        setDropdownCityOpen,
+        setHouseDisabled,
+        setInputHouse,
+        setInputStreet,
+        setInputDistrict,
+        setInputCity,
+        inputRegion,
+        setInputRegion,
+        setAfterDistrictDisabled,
+        setStreetDisabled,
+        mainObj_which,
+        setAfterRegionDisabled,
+        regionDisabled,
+        open,
+        setOpen
+    }: Opened){
     const [selectedItem, setSelectedItem] = useState<regionModel | null>(null)
 
     const filteredList = useMemo(() =>
@@ -49,6 +75,22 @@ export default function Region({setInputStreet, setInputDistrict, setInputCity, 
         setOpen(true);
         setInputRegion("")
         setAfterRegionDisabled(true)
+        setDropdownDistrictOpen(false)
+        if(setDropdownCityOpen != undefined){
+            setDropdownCityOpen(false)
+        }
+        if(setDropdownStreetOpen != undefined){
+            setDropdownStreetOpen(false)
+        }
+        if(setDropdownHouseOpen != undefined){
+            setDropdownHouseOpen(false)
+        }
+        if(setHouseDisabled != undefined){
+            setHouseDisabled(true)
+        }
+        if(setInputHouse != undefined){
+            setInputHouse("")
+        }
         if(setInputCity != undefined){
             setInputCity("")
         }
@@ -75,7 +117,11 @@ export default function Region({setInputStreet, setInputDistrict, setInputCity, 
                         className="selectField_1"
                         placeholder="Выберите область"
                         defaultValue={""}
-                        style={{color: inputRegion.length > 0 ? "black" : "gray"}}
+                        style={{
+                            color: inputRegion.length > 0 ? "black" : "gray",
+                            border: inputRegion.length > 0 ? "2px black solid" : "1px black solid",
+                            cursor: regionDisabled ? "default" : "pointer"
+                        }}
                         onClick={regionDisabled ? undefined : (event) => handleClick(event)}
                     >
                         {inputRegion.length == 0 ? "Выберите область" : inputRegion}
@@ -85,7 +131,7 @@ export default function Region({setInputStreet, setInputDistrict, setInputCity, 
             </div>
             <div>
                 {open &&
-                    <div className="dropdown">
+                    <div className={`dropdown ${open ? "opened" : "closed"}`}>
                         <Dropdown_region
                             mainObj_which={mainObj_which}
                             setField3Disabled={setAfterRegionDisabled}

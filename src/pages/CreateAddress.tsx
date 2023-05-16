@@ -5,6 +5,7 @@ import City from "../components/city/city";
 import Street from "../components/street/street";
 import {infoJSON} from "./ValidatorWindow";
 import {mainObj_address} from "../MainObject/mainObj_address";
+import {House} from "../components/house/house";
 
 export function CreateAddress(){
 
@@ -17,6 +18,8 @@ export function CreateAddress(){
 
     const [openStreet, setOpenStreet] = useState(false)
 
+    const [openHouse, setOpenHouse] = useState(false)
+
     // Состояния, определяющие, разблокировать то или иное поле или нет( сделано таким образом что поле разблокируется только при наличии информации в предыдущем)
     const [regionDisabled, setRegionDisabled] = useState(false)
 
@@ -25,6 +28,8 @@ export function CreateAddress(){
     const [afterDistrictDisabled, setAfterDistrictDisabled] = useState(true)
 
     const [streetDisabled, setStreetDisabled] = useState(true)
+
+    const [houseDisabled, setHouseDisabled] = useState(true)
 
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
     const handleSubmit = () => {
@@ -35,16 +40,15 @@ export function CreateAddress(){
         infoJSON.district = mainObj_address.district
         alert(JSON.stringify(mainObj_address))
         console.log(JSON.stringify(mainObj_address))
-    }
-
-    // Определяет наличие валидных данных в логине и пароле, позволяя разблоикровать кнопку для отправки формы
-    function isValid(input_1: boolean, input_2: boolean){
-        if(input_1 && input_2){
-            return true;
-        }
-        else {
-            return false
-        }
+        setInputRegion("")
+        setInputDistrict("")
+        setInputCity("")
+        setInputStreet("")
+        setInputHouses("")
+        setAfterRegionDisabled(true)
+        setAfterDistrictDisabled(true)
+        setStreetDisabled(true)
+        setHouseDisabled(true)
     }
 
     const [inputRegion, setInputRegion] = useState("")
@@ -55,6 +59,8 @@ export function CreateAddress(){
 
     const [inputStreet, setInputStreet] = useState("")
 
+    const [inputHouses, setInputHouses] = useState("")
+
     return(
         <form onSubmit={(event) => {
             event.preventDefault();
@@ -64,10 +70,18 @@ export function CreateAddress(){
                 setOpenRegion(false)
                 setOpenDistrict(false)
                 setOpenCity(false)
+                setOpenStreet(false)
+                setOpenHouse(false)
             }}  className="background"
             />
-            <div className="window">
+            <div className="window" style={{height: 330}}>
                 <Region
+                    setDropdownDistrictOpen={setOpenDistrict}
+                    setDropdownStreetOpen={setOpenStreet}
+                    setDropdownCityOpen={setOpenCity}
+                    setDropdownHouseOpen={setOpenHouse}
+                    setHouseDisabled={setHouseDisabled}
+                    setInputHouse={setInputHouses}
                     inputRegion={inputRegion}
                     setInputRegion={setInputRegion}
                     setInputDistrict={setInputDistrict}
@@ -82,6 +96,13 @@ export function CreateAddress(){
                     setAfterRegionDisabled={setAfterRegionDisabled}
                 />
                 <District
+                    //setCityDisabled - решить вопрос и сделать код чище
+                    setDropdownHouseOpen={setOpenHouse}
+                    setDropdownCityOpen={setOpenCity}
+                    setDropdownStreetOpen={setOpenStreet}
+                    setHouseDisabled={setHouseDisabled}
+                    setInputHouse={setInputHouses}
+                    setInputCity={setInputCity}
                     inputDistrict={inputDistrict}
                     setInputDistrict={setInputDistrict}
                     setStreetDisabled={setStreetDisabled}
@@ -92,6 +113,11 @@ export function CreateAddress(){
                     setAfterDistrictDisabled={setAfterDistrictDisabled}
                 />
                 <City
+                    setDropdownStreetOpen={setOpenStreet}
+                    setDropdownHouseOpen={setOpenHouse}
+                    setInputStreet={setInputStreet}
+                    setInputHouse={setInputHouses}
+                    setHouseDisabled={setHouseDisabled}
                     inputCity={inputCity}
                     setInputCity={setInputCity}
                     mainObj_which={mainObj_address}
@@ -101,6 +127,9 @@ export function CreateAddress(){
                     setStreetDisabled={setStreetDisabled}
                 />
                 <Street
+                    setDropdownHouseOpen={setOpenHouse}
+                    setHouseDisabled={setHouseDisabled}
+                    setInputHouse={setInputHouses}
                     inputStreet={inputStreet}
                     setInputStreet={setInputStreet}
                     mainObj_which={mainObj_address}
@@ -108,12 +137,21 @@ export function CreateAddress(){
                     setOpen={setOpenStreet}
                     streetDisabled={streetDisabled}
                 />
+                <House
+                    open={openHouse}
+                    setOpen={setOpenHouse}
+                    setInputHouse={setInputHouses}
+                    houseDisabled={houseDisabled}
+                    inputHouse={inputHouses}
+                    mainObj_which={mainObj_address}
+                />
                 <button
                     disabled={regionDisabled
                         || afterRegionDisabled
                         || afterDistrictDisabled
                         || streetDisabled
-                        || inputStreet.length == 0}
+                        || houseDisabled
+                        || inputHouses.length == 0}
                     className="button_submit"
                     onClick={() => handleSubmit()}
                 >

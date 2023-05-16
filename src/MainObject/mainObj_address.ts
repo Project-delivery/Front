@@ -4,6 +4,7 @@ export type mainObj_typeAddress = {
     district: string,
     city: string
     street: string
+    house: string
 }
 
 export const mainObj_address : mainObj_typeAddress = {
@@ -11,5 +12,6 @@ export const mainObj_address : mainObj_typeAddress = {
     region: "",
     district: "",
     city: "",
-    street: ""
+    street: "",
+    house: ""
 }

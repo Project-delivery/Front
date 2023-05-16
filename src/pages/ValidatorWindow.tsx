@@ -1,22 +1,23 @@
 import React from "react";
 import { useState } from "react";
-import {mainObj_address} from "../MainObject/mainObj_address";
-import {mainObj_typeAddress} from "../MainObject/mainObj_address";
 import {Requests_for_validator} from "../components/requests_for_validator";
-import {requests_for_validator} from "../imports_for_output/requests_for_validator";
+import {mainObj_typeValidator, requests_for_validator} from "../imports_for_output/requests_for_validator";
 
 const decision = {
     YorN: "",
     commentary: "",
-    validatorID: 0
+    validatorID: 0,
+    requestID: -1
 }
 
-export const infoJSON : mainObj_typeAddress = {
+export const infoJSON = {
+    requestID: 0,
     id: 0,
     region: "",
     district: "",
     city: "",
-    street: ""
+    street: "",
+    house: ""
 }
 
 export function ValidatorWindow() {
@@ -24,6 +25,8 @@ export function ValidatorWindow() {
     const [selectedOption, setSelectedOption] = useState("");
 
     const [comment, setComment] = useState("")
+
+    const [reqID, setReqID] = useState(-1)
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
@@ -37,47 +40,61 @@ export function ValidatorWindow() {
             decision.YorN = "Отказано"
         }
         decision.commentary = comm
-        decision.validatorID = 2
+        decision.validatorID = 999
+        decision.requestID = reqID
+        setSelectedOption("")
+        setSelectedItem(null)
+        setReqID(-1)
+        setComment("")
         alert(JSON.stringify(decision))
-        alert(JSON.stringify(mainObj_address))
     }
 
-    const [selectedItem, setSelectedItem] = useState<mainObj_typeAddress | null>(null)
+    const [selectedItem, setSelectedItem] = useState<mainObj_typeValidator | null>(null)
 
     return (
         <>
             <div className="background"/>
             <div className="window_validator">
                 <div className="radioBtn">
-                    <label>
+                    <label className="radioLabel">
                         <input
+                            className="btn_radio visually-hidden"
                             type="radio"
                             value="option1"
                             checked={selectedOption === "option1"}
                             onChange={handleOptionChange}
                             name="options"
                         />
+                        <span className="customRadio"></span>
                         Да
                     </label>
-                    <label>
+                    <label className="radioLabel">
                         <input
+                            className="btn_radio visually-hidden"
                             type="radio"
                             value="option2"
                             checked={selectedOption === "option2"}
                             onChange={handleOptionChange}
                             name="options"
                         />
+                        <span className="customRadio"></span>
                         Нет
                     </label>
                 </div>
                 <button
+                    disabled={selectedOption.length == 0 || reqID == -1}
                     className="button_save"
                     onClick={() => handleClick(selectedOption, comment)}
                 >
                     Сохранить
                 </button>
                 <div className="get_infoJSON">
-                    <Requests_for_validator selectedItem={selectedItem} setSelectedItem={setSelectedItem} list={requests_for_validator}/>
+                    <Requests_for_validator
+                        setRequestID={setReqID}
+                        selectedItem={selectedItem}
+                        setSelectedItem={setSelectedItem}
+                        list={requests_for_validator}
+                    />
                 </div>
                 <textarea
                     className="commentary"

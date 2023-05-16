@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {banSymbols} from "./checkValid";
 import {userModel} from "../MainObject/UserDescription";
 import {useNavigate} from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEye} from "@fortawesome/free-solid-svg-icons";
 
 
@@ -59,6 +59,12 @@ export function ModalAuth(){
         setEyeChecked(prev => !prev)
     }
 
+    const resetEye = (input: string) => {
+        if(input.length == 0){
+            setEyeChecked(false)
+        }
+    }
+
     return (
         <form>
             <div
@@ -88,10 +94,15 @@ export function ModalAuth(){
                             type={eyeChecked ? "text" : "password"}
                             className="input_authorize"
                             placeholder="Введите пароль..."
-                            onChange={(event) => setPassword(event.target.value)}
+                            onChange={(event) => {
+                                setPassword(event.target.value)
+                                resetEye(event.target.value)
+                            }}
                         />
-                        <FontAwesomeIcon className="eye" icon={faEye} onClick={() => eyeHandler()}/>
-                    </label>
+                        {password &&
+                            <FontAwesomeIcon style={{color: eyeChecked ? "black" : "gray"}} className="eye" icon={faEye} onClick={() => eyeHandler()}/>
+                        }
+                        </label>
                     <div
                         className="error_authorize"
                     >

@@ -30,20 +30,27 @@ export function CreateUserPage() {
     const handleSubmit = () => {
         alert(JSON.stringify(mainObject))
         console.log(JSON.stringify(mainObject))
+        setInputRole("")
+        setInputRegion("")
+        setInputDistrict("")
+        setInputLogin("")
+        setInputPassword("")
+        setDistrictDisabled(true)
+        setLogAndPasDisabled(true)
+        setShowPassword(false)
     }
 
-    // Определяет наличие валидных данных в логине и пароле, позволяя разблоикровать кнопку для отправки формы
-    function isValid(input_1: boolean, input_2: boolean) {
-        if (input_1 && input_2) {
-            return true;
-        } else {
-            return false
-        }
-    }
+    const [inputRole, setInputRole] = useState("")
 
     const [inputRegion, setInputRegion] = useState("")
 
     const [inputDistrict, setInputDistrict] = useState("")
+
+    const [inputLogin, setInputLogin] = useState("")
+
+    const [inputPassword, setInputPassword] = useState("")
+
+    const [showPassword, setShowPassword] = useState(false)
 
     return (
         <form onSubmit={(event) => {
@@ -58,11 +65,14 @@ export function CreateUserPage() {
             />
             <div className="window">
                 <Role
+                    inputRole={inputRole}
+                    setInputRole={setInputRole}
                     open={openRole}
                     setOpen={setOpenRole}
                     setField2Disabled={setRegionDisabled}
                 />
                 <Region
+                    setDropdownDistrictOpen={setOpenDistrict}
                     inputRegion={inputRegion}
                     setInputRegion={setInputRegion}
                     setInputDistrict={setInputDistrict}
@@ -81,8 +91,20 @@ export function CreateUserPage() {
                     afterRegionDisabled={districtDisabled}
                     setAfterDistrictDisabled={setLogAndPasDisabled}
                 />
-                <Login field4and5Disabled={LogAndPasDisabled} setValid={setValid_Login}/>
-                <Password field4and5Disabled={LogAndPasDisabled} setValid={setValid_password}/>
+                <Login
+                    exportedLogin={inputLogin}
+                    setInputLogin={setInputLogin}
+                    field4and5Disabled={LogAndPasDisabled}
+                    setValid={setValid_Login}
+                />
+                <Password
+                    showPassword={showPassword}
+                    setShowPassword={setShowPassword}
+                    exportedPassword={inputPassword}
+                    setInputPassword={setInputPassword}
+                    field4and5Disabled={LogAndPasDisabled}
+                    setValid={setValid_password}
+                />
                 <button
                     disabled={regionDisabled
                         || districtDisabled

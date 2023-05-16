@@ -4,6 +4,8 @@ import {useForm} from "react-hook-form";
 import {banSymbols} from "../checkValid";
 
 interface disabled{
+    exportedLogin: string
+    setInputLogin: React.Dispatch<React.SetStateAction<string>>
     setValid: React.Dispatch<React.SetStateAction<boolean>>
     field4and5Disabled: boolean
 }
@@ -12,19 +14,15 @@ interface disabled{
 // полей логина и пароля разный в том, что логин вводить нужно самому, и в нем есть проверка на валидность:
 // запрет на использование некоторых символов, минимальная длина - 5б максимальная - 20. Запрещенные символы
 // можно посмотреть в функции banSymbols, которая проверяет ввод на отсутствие этих символов.
-export default function Login({setValid, field4and5Disabled}: disabled){
+export default function Login({exportedLogin, setInputLogin, setValid, field4and5Disabled}: disabled){
 
     const {
         register,
         formState:{errors, isValid},
-        watch
     } = useForm<mainObj_typeCreate>({
         mode: "onBlur"
     })
 
-    const login = watch('login') as string
-
-    const [input, setInput] = useState('')
     const setMainObject = (login: string) => {
         mainObject.login = login
     }
@@ -60,11 +58,16 @@ export default function Login({setValid, field4and5Disabled}: disabled){
                     disabled={field4and5Disabled}
                     type="text"
                     className="selectField_1"
+                    value={field4and5Disabled ? "Введите логин" : exportedLogin}
+                    style={{
+                        border: exportedLogin.length > 0 ? "2px black solid" : "1px black solid",
+                        color: field4and5Disabled ? "gray" : "black"
+                    }}
                     placeholder="Введите логин"
                     onChange={(event) => {
-                        setInput(event.target.value)
                         setMainObject(event.target.value)
                         setValid(Validation(event.target.value))
+                        setInputLogin(event.target.value)
                     }}
                 />
                 <div

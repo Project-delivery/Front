@@ -1,15 +1,17 @@
 import React from 'react'
 import {streetModel} from "../../imports_for_output/streets_array";
-import {mainObj_address, mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 
 interface listProps{
-    mainObj_which: mainObj_typeAddress
+    setHouseDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
+    mainObj_which: mainObj_typeAddress | mainObj_typeSearch
     filteredList: streetModel[]
     setSelectedItem: React.Dispatch<React.SetStateAction<streetModel | null>>
     setInput: React.Dispatch<React.SetStateAction<string>>
     setDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
-export default function Dropdown_street({mainObj_which, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
+export default function Dropdown_street({setHouseDisabled, mainObj_which, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input: string, id: number) => {
@@ -24,6 +26,9 @@ export default function Dropdown_street({mainObj_which, filteredList, setInput, 
             setSelectedItem(elem)                  // При нажатии на кнопку, выбранный объект передается в selectedItem,
             setInput(elem.street)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
+            if(setHouseDisabled != undefined){
+                setHouseDisabled(false)
+            }
             setMainObject(elem.street, elem.id)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
         }
         }>

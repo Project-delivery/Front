@@ -8,10 +8,15 @@ import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface Opened{
+    setDropdownCityOpen ?: React.Dispatch<React.SetStateAction<boolean>>
+    setDropdownStreetOpen ?: React.Dispatch<React.SetStateAction<boolean>>
+    setDropdownHouseOpen ?: React.Dispatch<React.SetStateAction<boolean>>
+    setHouseDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
     inputDistrict: string
     setInputDistrict: React.Dispatch<React.SetStateAction<string>>
-    setInputCity ?: React.Dispatch<React.SetStateAction<string>>
+    setInputCity?: React.Dispatch<React.SetStateAction<string>>
     setCityDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
+    setInputHouse?: React.Dispatch<React.SetStateAction<string>>
     mainObj_which: mainObj_typeSearch | mainObj_typeAddress | mainObj_typeCreate
     afterRegionDisabled: boolean
     setAfterDistrictDisabled ?: React.Dispatch<React.SetStateAction<boolean>>
@@ -22,7 +27,8 @@ interface Opened{
 // Функция для реализации следующего функционала: при вводе каких-либо символов в строку поиска, выпадающий список
 // динамически меняется предлагая только те варианты, которые содержат в себе введенные символы
 // (пример: введено "Min" - выпадающий список будет содержать поля "Minsk", "Minnesota" и т.д)
-function filterList(items: districtModel[], text: string, selected: districtModel | null): districtModel[] {
+
+/*Посмотреть нужна ли*/function filterList(items: districtModel[], text: string, selected: districtModel | null): districtModel[] {
     return items.filter((item) => {
         if (selected && item.district.toLowerCase() === selected.district.toLowerCase()) {
             return true;
@@ -35,7 +41,24 @@ function filterList(items: districtModel[], text: string, selected: districtMode
 // Функция создания поля "Район". Привязанный к ней выпадающий список находится в файле "dropdown_district.ts".
 // При выборе поля в выпадающем списке, его данные (id, если имеется, и главная информация (в данном случае район))
 // передаются в состояние selectedItem.
-export default function District({ setCityDisabled, setInputCity, inputDistrict, setInputDistrict, setStreetDisabled, mainObj_which, setAfterDistrictDisabled, afterRegionDisabled, open, setOpen}: Opened){
+export default function District(
+    {
+        setDropdownStreetOpen,
+        setDropdownCityOpen,
+        setDropdownHouseOpen,
+        setHouseDisabled,
+        setInputHouse,
+        setCityDisabled,
+        setInputCity,
+        inputDistrict,
+        setInputDistrict,
+        setStreetDisabled,
+        mainObj_which,
+        setAfterDistrictDisabled,
+        afterRegionDisabled,
+        open,
+        setOpen
+    }: Opened){
     const [selectedItem, setSelectedItem] = useState<districtModel | null>(null)
 
     const filteredList = useMemo(() =>
@@ -55,10 +78,25 @@ export default function District({ setCityDisabled, setInputCity, inputDistrict,
         event.preventDefault();
         setOpen(true);
         setInputDistrict("")
+        if(setDropdownCityOpen != undefined){
+            setDropdownCityOpen(false)
+        }
+        if(setDropdownStreetOpen != undefined){
+            setDropdownStreetOpen(false)
+        }
+        if(setDropdownHouseOpen != undefined){
+            setDropdownHouseOpen(false)
+        }
+        if(setHouseDisabled != undefined){
+            setHouseDisabled(true)
+        }
         if(setCityDisabled != undefined){
             setCityDisabled(true)
         }
-        if(setInputCity){
+        if(setInputHouse != undefined){
+            setInputHouse("")
+        }
+        if(setInputCity != undefined){
             setInputCity("")
         }
         if(setAfterDistrictDisabled != undefined){
@@ -80,7 +118,11 @@ export default function District({ setCityDisabled, setInputCity, inputDistrict,
                     <span
                         className="selectField_1"
                         placeholder="Выберите район"
-                        style={{color: inputDistrict.length > 0 ? "black" : "gray"}}
+                        style={{
+                            color: inputDistrict.length > 0 ? "black" : "gray",
+                            border: inputDistrict.length > 0 ? "2px black solid" : "1px black solid",
+                            cursor: afterRegionDisabled ? "default" : "pointer"
+                        }}
                         onClick={afterRegionDisabled ? undefined : (event) => handleClick(event)}
                     >
                         {inputDistrict.length == 0 ? "Выберите район" : inputDistrict}

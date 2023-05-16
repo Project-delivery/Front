@@ -2,6 +2,10 @@ import React, {useState} from 'react'
 import {mainObject} from "../../MainObject/main_obj";
 
 interface disabled {
+    showPassword: boolean
+    setShowPassword: React.Dispatch<React.SetStateAction<boolean>>
+    exportedPassword: string
+    setInputPassword: React.Dispatch<React.SetStateAction<string>>
     setValid: React.Dispatch<React.SetStateAction<boolean>>
     field4and5Disabled: boolean
 }
@@ -13,31 +17,8 @@ interface disabled {
 // "Готово", которая отправляет форму на бэк(для этого тоже нужен будет запрос), и состояние field4and5Disabled -
 // определяет, заблокированы ли поля "Логин" и "Пароль" для взаимодействия с ними.
 
-export default function Password({setValid, field4and5Disabled}: disabled){
+export default function Password({showPassword, setShowPassword, exportedPassword, setInputPassword, setValid, field4and5Disabled}: disabled){
 
-    const [input, setInput] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
-
-    const setMainObject = (password: string) => {
-        mainObject.password = password
-    }
-
-    const setPassword = () => {
-        const password = generateRandomPassword()
-        setInput(password)
-        setMainObject(password)
-        setShowPassword(true)
-    }
-
-    const toggleShowPassword = () => {
-        setShowPassword(!showPassword)
-    }
-
-    const inputType = showPassword ? 'text' : 'password'
-    const buttonText = showPassword ? 'Скрыть пароль' : 'Сгенерировать пароль'
-
-    // Вместо этой функции должен быть запрос на бэк для получения сгенерированного пароля.
-    // Сейчас эта функция нужна только для наглядности
     function generateRandomPassword() {
         const length = 25
         const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -49,6 +30,24 @@ export default function Password({setValid, field4and5Disabled}: disabled){
         return password
     }
 
+    const setMainObject = (password: string) => {
+        mainObject.password = password
+    }
+
+    const setPassword = () => {
+        const password = generateRandomPassword()
+        setMainObject(password)
+        setInputPassword(password)
+        setShowPassword(true)
+    }
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword)
+    }
+
+    const inputType = showPassword ? 'text' : 'password'
+    const buttonText = showPassword ? 'Скрыть пароль' : 'Сгенерировать пароль'
+
     return (
         <div className="label_field">
             <label className="label">
@@ -57,7 +56,8 @@ export default function Password({setValid, field4and5Disabled}: disabled){
                     type={inputType}
                     className="selectField_1"
                     placeholder="Пароль"
-                    value={input}
+                    value={exportedPassword}
+                    style={{border: exportedPassword.length > 0 ? "2px black solid" : "1px black solid"}}
                     readOnly={showPassword}
                     disabled={true}
                 />

@@ -3,6 +3,7 @@ import Region from "../components/region/region";
 import District from "../components/district/district";
 import City from "../components/city/city";
 import {mainObj_search} from "../MainObject/mainObj_search";
+import Street from "../components/street/street";
 
 export function Search_page() {
 
@@ -12,6 +13,8 @@ export function Search_page() {
     const [openDistrict, setOpenDistrict] = useState(false)
 
     const [openCity, setOpenCity] = useState(false)
+
+    const [openStreet, setOpenStreet] = useState(false)
 
     // Состояния, определяющие, разблокировать то или иное поле или нет( сделано таким образом что поле разблокируется только при наличии информации в предыдущем)
     const [regionDisabled, setRegionDisabled] = useState(false)
@@ -24,20 +27,18 @@ export function Search_page() {
 
     const [streetDisabled, setStreetDisabled] = useState(true)
 
+
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
     const handleSubmit = () => {
         alert(JSON.stringify(mainObj_search))
         console.log(JSON.stringify(mainObj_search))
-    }
-
-    // Определяет наличие валидных данных в логине и пароле, позволяя разблоикровать кнопку для отправки формы
-    function isValid(input_1: boolean, input_2: boolean){
-        if(input_1 && input_2){
-            return true;
-        }
-        else {
-            return false
-        }
+        setInputRegion("")
+        setInputDistrict("")
+        setInputCity("")
+        setInputStreet("")
+        setAfterRegionDisabled(true)
+        setAfterDistrictDisabled(true)
+        setStreetDisabled(true)
     }
 
     const [inputRegion, setInputRegion] = useState("")
@@ -46,30 +47,41 @@ export function Search_page() {
 
     const [inputCity, setInputCity] = useState("")
 
+    const [inputStreet, setInputStreet] = useState("")
+
     return(
         <form onSubmit={(event) => {
-            event.preventDefault();
+            event.preventDefault()
         }
         }>
             <div onClick={() => {        // При нажатии на задний фон, выпадающие списки закрываются
                 setOpenRegion(false)
                 setOpenDistrict(false)
                 setOpenCity(false)
+                setOpenStreet(false)
             }}  className="background"
             />
-            <div className="window">
+            <div className="window" style={{height: 275}}>
                 <Region
+                    setDropdownDistrictOpen={setOpenDistrict}
+                    setDropdownCityOpen={setOpenCity}
+                    setDropdownStreetOpen={setOpenStreet}
                     inputRegion={inputRegion}
                     setInputRegion={setInputRegion}
                     setInputDistrict={setInputDistrict}
                     setInputCity={setInputCity}
+                    setInputStreet={setInputStreet}
                     mainObj_which={mainObj_search}
                     open={openRegion}
                     setOpen={setOpenRegion}
                     regionDisabled={regionDisabled}
                     setAfterRegionDisabled={setAfterRegionDisabled}
+                    setStreetDisabled={setStreetDisabled}
+                    setAfterDistrictDisabled={setAfterDistrictDisabled}
                 />
                 <District
+                    setDropdownStreetOpen={setOpenStreet}
+                    setDropdownCityOpen={setOpenCity}
                     inputDistrict={inputDistrict}
                     setInputDistrict={setInputDistrict}
                     setInputCity={setInputCity}
@@ -81,6 +93,8 @@ export function Search_page() {
                     setAfterDistrictDisabled={setAfterDistrictDisabled}
                 />
                 <City
+                    setDropdownStreetOpen={setOpenStreet}
+                    setInputStreet={setInputStreet}
                     inputCity={inputCity}
                     setInputCity={setInputCity}
                     mainObj_which={mainObj_search}
@@ -89,10 +103,21 @@ export function Search_page() {
                     cityDisabled={afterDistrictDisabled}
                     setStreetDisabled={setStreetDisabled}
                 />
+                <Street
+                    inputStreet={inputStreet}
+                    setInputStreet={setInputStreet}
+                    mainObj_which={mainObj_search}
+                    streetDisabled={streetDisabled}
+                    open={openStreet}
+                    setOpen={setOpenStreet}
+                />
                 <button
-                    disabled={afterRegionDisabled
-                        || inputCity.length == 0
-                        || inputCity != mainObj_search.city}
+                    disabled={regionDisabled
+                        || afterRegionDisabled
+                        || afterDistrictDisabled
+                        || streetDisabled
+                        || inputStreet.length == 0
+                        || inputStreet !== mainObj_search.street}
                     className="button_submit"
                     onClick={() => handleSubmit()}
                 >
