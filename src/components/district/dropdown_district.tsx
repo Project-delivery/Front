@@ -15,9 +15,10 @@ interface listProps{
 export default function Dropdown_district({ mainObj_which, setField4and5Disabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
-    const setMainObject = (input: string, id: number) => {
-        mainObj_which.district = input;
-        mainObj_which.id = id;
+    const setMainObject = (input:districtModel) => {
+        mainObj_which.district = input.district;
+        mainObj_which.idDistrict = input.id;
+        console.log(input);
     }
 
     // Формирование выпадающего списка из передаваемого из файла "district.tsx" отсортированного массива объектов в
@@ -27,7 +28,7 @@ export default function Dropdown_district({ mainObj_which, setField4and5Disabled
             setSelectedItem(elem)                  // При нажатии на кнопку, выбранный объект передается в selectedItem,
             setInput(elem.district)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
-            setMainObject(elem.district, elem.id)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
+            setMainObject(elem)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
             if(setField4and5Disabled){
                 setField4and5Disabled(false) // разблокировка следующих полей ("Логин" и "Пароль")
             }

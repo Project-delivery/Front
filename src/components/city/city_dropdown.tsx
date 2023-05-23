@@ -14,9 +14,10 @@ interface listProps{
 export default function Dropdown_city({mainObj_which, setStreetDisabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
-    const setMainObject = (input: string, id: number) => {
-        mainObj_which.city = input;
-        mainObj_which.id = id;
+    const setMainObject = (input: cityModel) => {
+        mainObj_which.city = input.city;
+        mainObj_which.idCity = input.id;
+        console.log(input)
     }
 
     // Формирование выпадающего списка из передаваемого из файла "district.tsx" отсортированного массива объектов в
@@ -27,7 +28,7 @@ export default function Dropdown_city({mainObj_which, setStreetDisabled, filtere
             setInput(elem.city)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
             setStreetDisabled(false)
-            setMainObject(elem.city, elem.id)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
+            setMainObject(elem)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
         }
         }>
             {elem.city}

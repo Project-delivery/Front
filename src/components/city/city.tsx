@@ -1,8 +1,9 @@
 import Dropdown_city from "./city_dropdown";
 import {cities, cityModel} from "../../imports_for_output/cities_array";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import { GetCitiesById } from "../../services/AddressService";
 
 interface Opened{
     setDropdownStreetOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -37,7 +38,17 @@ function filterList(items: cityModel[], text: string, selected: cityModel | null
 export default function City(
     {setDropdownStreetOpen, setDropdownHouseOpen, setInputStreet, setInputHouse, setHouseDisabled, inputCity, setInputCity, mainObj_which, open, setOpen, cityDisabled, setStreetDisabled}: Opened){
     const [selectedItem, setSelectedItem] = useState<cityModel | null>(null)
+    const [cities,setCities] = useState<cityModel[]>([]); 
 
+    //молимся чтобы useEffect убрал ошибку бесконечного рендеринга
+    useEffect(()=>{
+        async function citiesInit(){
+        const data = await GetCitiesById(mainObj_which.idDistrict);
+        setCities(data);
+        console.log(data);
+        }
+        citiesInit();
+    },[]);
     const filteredList = useMemo(() =>
         filterList(cities, inputCity, selectedItem), [cities, inputCity, selectedItem])
 

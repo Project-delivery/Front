@@ -5,12 +5,12 @@ export interface regionModel {
 
 
 // Этот массив должен получаться запросом с бэка
-export const regions: regionModel[] =  [{
+export const Regions: regionModel[] =  [{
     id: 1,
     region: "Minsk"
 }, {
     id: 2,
-    region: "Minnesota"
+    region: "Breeeest"
 }, {
     id: 3,
     region: "Toronto"

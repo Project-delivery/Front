@@ -15,7 +15,7 @@ let user: userModel = {
 //Окно авторизации
 //При нажатии кнопки "Next" указанные логин и пароль передаются объекту users
 //Ввод проверяется на наличие символов, пустая строка спровоцирует ошибку
-export function ModalAuth(){
+export function ModalAuth(): JSX.Element{
     const onSubmit = (login: string, password: string, event: any) => {
         event.preventDefault()
         user.login = login
@@ -24,9 +24,18 @@ export function ModalAuth(){
         console.log(user.login)
         console.log('Password: ')
         console.log(user.password)
-        if(true){
-            navigate("/admin_window")
-        }
+        
+         navigate("/admin_window")
+         // Login(user.login, HashPassword(user.password))
+         // if(sessionStorage.getItem("role") === "admin"){
+         //     navigate("/admin_window")
+         // }else if(sessionStorage.getItem("role") === "worker"){
+         //     navigate("/worker_window")
+         // }else if(sessionStorage.getItem("role") === "validator"){
+         //     navigate("/validator_window")
+         // }else if(sessionStorage.getItem("role") === "notAuthorized"){
+         //    alert("Авторизация провалилась. Попробуйте снова или обратитесь к администратору.")
+         // }
     }
 
     const [login, setLogin] = useState('')

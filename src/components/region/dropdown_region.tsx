@@ -15,8 +15,11 @@ interface listProps{
 export default function Dropdown_region({mainObj_which, setField3Disabled, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
-    const setMainObject = (input: string) => {
-        mainObj_which.region = input;
+    const setMainObject = (input: regionModel) => {
+        mainObj_which.region = input.region;
+        mainObj_which.idRegion = input.id;
+        console.log(input);
+        
     }
 
     // Формирование выпадающего списка из передаваемого из файла "region.tsx" отсортированного массива объектов в
@@ -26,7 +29,7 @@ export default function Dropdown_region({mainObj_which, setField3Disabled, filte
                 setSelectedItem(elem)           // При нажатии на кнопку, выбранный объект передается в selectedItem,
                 setInput(elem.region)           // input(то есть значение в поле для ввода) устанавливается на значение компонента,
                 setDropdownOpen(false)        // список закрывается,
-                setMainObject(elem.region)      // данные передаются в финальный объект, в данном случае нет id, так как тут region - не минимальная единица адреса
+                setMainObject(elem)      // данные передаются в финальный объект, в данном случае нет id, так как тут region - не минимальная единица адреса
                 setField3Disabled(false)  // разблокировка следующего поля ("Район")
             }
         }>

@@ -1,11 +1,12 @@
 import Dropdown_district from "./dropdown_district";
-import {districts, districtModel} from "../../imports_for_output/districts_array";
+import { districtModel} from "../../imports_for_output/districts_array";
 import React, {useEffect, useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_address, mainObj_typeAddress} from "../../MainObject/mainObj_address";
 import {mainObj_typeCreate} from "../../MainObject/main_obj";
 import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { GetDistrictsById } from "../../services/AddressService";
 
 interface Opened{
     setDropdownCityOpen ?: React.Dispatch<React.SetStateAction<boolean>>
@@ -60,7 +61,17 @@ export default function District(
         setOpen
     }: Opened){
     const [selectedItem, setSelectedItem] = useState<districtModel | null>(null)
+    const [districts,setDistricts] = useState<districtModel[]>([]); 
 
+    //молимся чтобы useEffect убрал ошибку бесконечного рендеринга
+    useEffect(()=>{
+        async function districtsInit(){
+        const data = await GetDistrictsById(mainObj_which.idRegion);
+        setDistricts(data);
+        console.log(data);
+        }
+        districtsInit();
+    },[]);
     const filteredList = useMemo(() =>
         filterList(districts, inputDistrict, selectedItem), [districts, inputDistrict, selectedItem])
 

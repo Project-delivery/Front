@@ -1,17 +1,27 @@
 export type mainObj_typeAddress = {
     id: number,
     region: string,
+    idRegion:number,
     district: string,
-    city: string
+    idDistrict:number,
+    city: string,
+    idCity:number,
     street: string
-    house: string
+    idStreet:number,
+    house: string,
+    idHouse:number
 }
 
 export const mainObj_address : mainObj_typeAddress = {
     id: 0,
     region: "",
+    idRegion: 0,
     district: "",
+    idDistrict: 0,
     city: "",
+    idCity: 0,
     street: "",
-    house: ""
+    idStreet:0,
+    house: "",
+    idHouse:0
 }

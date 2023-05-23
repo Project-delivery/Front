@@ -1,8 +1,9 @@
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {streets, streetModel} from "../../imports_for_output/streets_array";
 import Dropdown_street from "./street_dropdown";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
+import { GetStreetsById } from "../../services/AddressService";
 
 interface Opened{
     setDropdownHouseOpen ?: React.Dispatch<React.SetStateAction<boolean>>
@@ -33,7 +34,15 @@ function filterList(items: streetModel[], text: string, selected: streetModel | 
 // передаются в состояние selectedItem.
 export default function Street({setDropdownHouseOpen, setHouseDisabled, setInputHouse, inputStreet, setInputStreet, mainObj_which, streetDisabled, open, setOpen}: Opened){
     const [selectedItem, setSelectedItem] = useState<streetModel | null>(null)
-
+    const [streets,setStreets] = useState<streetModel[]>([]); 
+    useEffect(()=>{
+        async function streetsInit(){
+        const data = await GetStreetsById(mainObj_which.idCity);
+        setStreets(data);
+        console.log(data);
+        }
+        streetsInit();
+    },[]);
     const filteredList = useMemo(() =>
         filterList(streets, inputStreet, selectedItem), [streets, inputStreet, selectedItem])
 

@@ -5,6 +5,8 @@ import Region from "../components/region/region";
 import District from "../components/district/district";
 import Login from "../components/login/login";
 import Password from "../components/password/password";
+import { RegisterUser } from "../services/RegisterUserService";
+import { HashPassword } from "../services/PasswordHashing";
 
 export function CreateUserPage() {
 
@@ -28,6 +30,7 @@ export function CreateUserPage() {
 
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
     const handleSubmit = () => {
+        RegisterUser(mainObject.login,HashPassword(mainObject.password),mainObject.role,mainObject.idDistrict)
         alert(JSON.stringify(mainObject))
         console.log(JSON.stringify(mainObject))
         setInputRole("")

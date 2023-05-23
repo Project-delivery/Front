@@ -27,7 +27,7 @@ export const districts = [{
     id: 7,
     district: "Малиновка"
 }, {
-    id: 8,
+    id: 69,
     district: "Цна"
 }, {
     id: 9,

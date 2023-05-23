@@ -6,6 +6,7 @@ import Street from "../components/street/street";
 import {infoJSON} from "./ValidatorWindow";
 import {mainObj_address} from "../MainObject/mainObj_address";
 import {House} from "../components/house/house";
+import { RegisterUser } from "../services/RegisterUserService";
 
 export function CreateAddress(){
 

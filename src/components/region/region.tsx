@@ -1,11 +1,12 @@
 import Dropdown_region from "./dropdown_region";
-import {regions, regionModel} from "../../imports_for_output/regions_array";
-import React, {useMemo, useState} from "react";
+import { regionModel} from "../../imports_for_output/regions_array";
+import React, {useEffect, useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
 import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
 import {mainObj_typeCreate} from "../../MainObject/main_obj";
 import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { GetRegions } from "../../services/AddressService";
 
 interface Opened{
     setDropdownDistrictOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -66,7 +67,15 @@ export default function Region(
         setOpen
     }: Opened){
     const [selectedItem, setSelectedItem] = useState<regionModel | null>(null)
-
+    const [regions,setRegions] = useState<regionModel[]>([]); 
+    useEffect(()=>{
+        async function regionsInit(){
+        const data = await GetRegions();
+        setRegions(data);
+        console.log(data);
+        }
+        regionsInit();
+    },[]);
     const filteredList = useMemo(() =>
         filterList(regions, inputRegion, selectedItem), [regions, inputRegion, selectedItem])
 

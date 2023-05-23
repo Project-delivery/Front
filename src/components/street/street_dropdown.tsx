@@ -14,9 +14,10 @@ interface listProps{
 export default function Dropdown_street({setHouseDisabled, mainObj_which, filteredList, setInput, setSelectedItem, setDropdownOpen }: listProps) {
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
-    const setMainObject = (input: string, id: number) => {
-        mainObj_which.street = input;
-        mainObj_which.id = id;
+    const setMainObject = (input: streetModel) => {
+        mainObj_which.street = input.street;
+        mainObj_which.idStreet = input.id;
+        console.log(input)
     }
 
     // Формирование выпадающего списка из передаваемого из файла "district.tsx" отсортированного массива объектов в
@@ -29,7 +30,7 @@ export default function Dropdown_street({setHouseDisabled, mainObj_which, filter
             if(setHouseDisabled != undefined){
                 setHouseDisabled(false)
             }
-            setMainObject(elem.street, elem.id)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
+            setMainObject(elem)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
         }
         }>
             {elem.street}
