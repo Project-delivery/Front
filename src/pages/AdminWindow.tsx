@@ -25,13 +25,13 @@ export function AdminWindow(){
                     className="btn_backup"
                     onClick={() => handleClick()}
                 >
-                    Backup базы данных
+                    Backup отвалидированной базы данных
                 </button>
                 <button
                     className="btn_backup"
                     onClick={() => handleClick()}
                 >
-                    Backup базы данных
+                    Backup временной базы данных
                 </button>
             </div>
         </>

@@ -35,6 +35,7 @@ export function CreateUserPage() {
         setInputDistrict("")
         setInputLogin("")
         setInputPassword("")
+        setRegionDisabled(true)
         setDistrictDisabled(true)
         setLogAndPasDisabled(true)
         setShowPassword(false)
