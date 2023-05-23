@@ -27,6 +27,12 @@ export function AdminWindow(){
                 >
                     Backup базы данных
                 </button>
+                <button
+                    className="btn_backup"
+                    onClick={() => handleClick()}
+                >
+                    Backup базы данных
+                </button>
             </div>
         </>
     )
