@@ -29,7 +29,7 @@ interface Opened{
 // динамически меняется предлагая только те варианты, которые содержат в себе введенные символы
 // (пример: введено "Min" - выпадающий список будет содержать поля "Minsk", "Minnesota" и т.д)
 
-function filterList(items: districtModel[], text: string, selected: districtModel | null): districtModel[] {
+/*Посмотреть нужна ли*/function filterList(items: districtModel[], text: string, selected: districtModel | null): districtModel[] {
     return items.filter((item) => {
         if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
             return true;
@@ -89,6 +89,7 @@ export default function District(
 
     const handleClick = (event: any) => {
         event.preventDefault();
+
         getDistricts();
         setOpen(prev => !prev);
         setInputDistrict("")

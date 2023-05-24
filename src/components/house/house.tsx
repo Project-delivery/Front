@@ -1,7 +1,5 @@
 import React, {useMemo, useState} from "react";
 import {houseModel, houses} from "../../imports_for_output/houses_array";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {Dropdown_house} from "./house_dropdown";
 import {mainObj_address, mainObj_typeAddress} from "../../MainObject/mainObj_address";
 
@@ -31,9 +29,17 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
 
     const handleClick = (event: any) => {
         event.preventDefault();
-        setOpen(prev => !prev);
+        setOpen(true);
         setInputHouse("");
     }
+
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            setOpen(false)
+            setInputHouse(inputHouse)
+            event.currentTarget.blur();
+        }
+    };
 
     return (
         <form onSubmit={(event) => {
@@ -43,19 +49,24 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
             <div className="label_field">
                 <label className="label">
                     Дом
-                    <span
+                    <input
+                        disabled={houseDisabled}
+                        type="text"
                         className="selectField_1"
-                        placeholder="Выберите дом"
-                        style={{
-                            color: inputHouse.length > 0 ? "black" : "gray",
-                            border: inputHouse.length > 0 ? "2px black solid" : "1px black solid",
-                            cursor: houseDisabled ? "default" : "pointer"
+                        placeholder="Выберите город"
+                        value={houseDisabled ? "" : inputHouse}
+                        onChange={(event) => {
+                            mainObj_address.house = event.target.value
+                            setInputHouse(event.target.value)
+                            setOpen(true)
                         }}
-                        onClick={houseDisabled ? undefined : (event) => handleClick(event)}
+                        onKeyDown={handleKeyPress}
+                        onClick={(event) => handleClick(event)}
+                        style={{
+                            pointerEvents : houseDisabled ? 'none' : 'inherit',
+                            border: inputHouse.length > 0 ? "2px black solid" : "1px black solid"}}
                     >
-                        {inputHouse.length == 0 ? "Выберите дом" : inputHouse}
-                        <FontAwesomeIcon className={`icon ${open ? "open" : "closed"}`} icon={faChevronDown} />
-                    </span>
+                    </input>
                 </label>
             </div>
             <div>
