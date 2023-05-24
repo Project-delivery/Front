@@ -32,14 +32,14 @@ interface Opened{
 // Функция для реализации следующего функционала: при вводе каких-либо символов в строку поиска, выпадающий список
 // динамически меняется предлагая только те варианты, которые содержат в себе введенные символы
 // (пример: введено "Min" - выпадающий список будет содержать поля "Minsk", "Minnesota" и т.д)
-function filterList(items: regionModel[], text: string, selected: regionModel | null): regionModel[] {
-    return items.filter((item) => {
-        if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
-            return true;
-        }
-        return item.name.toLowerCase().includes(text.toLowerCase());
-    });
-}
+// function filterList(items: regionModel[], text: string, selected: regionModel | null): regionModel[] {
+//     return items.filter((item) => {
+//         if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
+//             return true;
+//         }
+//         return item.name.toLowerCase().includes(text.toLowerCase());
+//     });
+// }
 
 //Выбранный элемент хранится в selectedItem
 // Функция создания поля "Область". Привязанный к ней выпадающий список находится в файле "dropdown_region.ts".
@@ -79,12 +79,12 @@ export default function Region(
         regionsInit();
     },[]);
 
-    const filteredList = useMemo(() =>
-        filterList(regions, inputRegion, selectedItem), [regions, inputRegion, selectedItem])
+    // const filteredList = useMemo(() =>
+    //     filterList(regions, inputRegion, selectedItem), [regions, inputRegion, selectedItem])
 
     const handleClick = (event: any) => {
         event.preventDefault();
-        setOpen(true);
+        setOpen(prev => !prev);
         setInputRegion("")
         setAfterRegionDisabled(true)
         setDropdownDistrictOpen(false)

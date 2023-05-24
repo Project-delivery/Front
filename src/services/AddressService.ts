@@ -1,8 +1,8 @@
-import { regionModel, Regions } from "../imports_for_output/regions_array";
-import { districtModel, districts } from "../imports_for_output/districts_array";
-import { cities, cityModel } from "../imports_for_output/cities_array";
-import { streetModel, streets } from "../imports_for_output/streets_array";
-import { houseModel, houses } from "../imports_for_output/houses_array";
+import { regionModel } from "../imports_for_output/regions_array";
+import { districtModel } from "../imports_for_output/districts_array";
+import { cityModel } from "../imports_for_output/cities_array";
+import { streetModel } from "../imports_for_output/streets_array";
+import { houseModel } from "../imports_for_output/houses_array";
 import GetRegionsRequest, {  GetCitiesByIdRequest, GetDistrictsByIdRequest, GetHousesByIdRequest, GetStreetsByIdRequest } from "./AddressesServiceRequest";
 
 

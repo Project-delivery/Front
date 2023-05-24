@@ -31,7 +31,7 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
 
     const handleClick = (event: any) => {
         event.preventDefault();
-        setOpen(true);
+        setOpen(prev => !prev);
         setInputHouse("");
     }
 
