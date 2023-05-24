@@ -4,11 +4,11 @@ export interface roleModel {
 }
 export const roles: roleModel[] = [{
     id: 1,
-    role: "Admin"
+    role: "admin"
 }, {
     id: 2,
-    role: "Worker"
+    role: "worker"
 }, {
     id: 3,
-    role: "Validator"
+    role: "validator"
 }]

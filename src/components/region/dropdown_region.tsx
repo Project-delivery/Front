@@ -16,7 +16,7 @@ export default function Dropdown_region({mainObj_which, setField3Disabled, filte
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input: regionModel) => {
-        mainObj_which.region = input.region;
+        mainObj_which.region = input.name;
         mainObj_which.idRegion = input.id;
         console.log(input);
         
@@ -27,13 +27,14 @@ export default function Dropdown_region({mainObj_which, setField3Disabled, filte
     const listItems = filteredList.map((elem) => (
         <li key={elem.id} onClick={() => {
                 setSelectedItem(elem)           // При нажатии на кнопку, выбранный объект передается в selectedItem,
-                setInput(elem.region)           // input(то есть значение в поле для ввода) устанавливается на значение компонента,
+                setInput(elem.name)           // input(то есть значение в поле для ввода) устанавливается на значение компонента,
                 setDropdownOpen(false)        // список закрывается,
                 setMainObject(elem)      // данные передаются в финальный объект, в данном случае нет id, так как тут region - не минимальная единица адреса
                 setField3Disabled(false)  // разблокировка следующего поля ("Район")
+                
             }
         }>
-            {elem.region}
+            {elem.name}
         </li>
     ));
 

@@ -1,3 +1,4 @@
+import { API_URL } from "../psevdoEnv";
 
 export async function RegisterUserRequest(login:string, password:string, role:string, idDistrict:number ): Promise<Response>
 {
@@ -6,19 +7,15 @@ export async function RegisterUserRequest(login:string, password:string, role:st
   formData.append("Login", login);
   formData.append("Password", password);
   formData.append("Role", role);
-  formData.append("District", JSON.stringify(idDistrict));
+  formData.append("Adress", JSON.stringify(idDistrict));
 
         //console.log(formData);
-        const response = await fetch(`${process.env.API_URL}/Account/Register` , {
-            method: "POST",
-            headers: { 
-            'Access-Control-Allow-Origin':'*',
-            'Accept': 'application/json',//не помню мб можно убрать
-          //'Content-Type': 'application/json',
-            'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`
-            },
-            mode: "cors",
-            body:formData
+        const response = await fetch(`${API_URL}/Account/Register` , {
+          method: "POST",
+          headers: {"Accept": "application/json",
+          'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`},
+          body: formData,
+          mode: "cors"
         });
         return response;
 } 

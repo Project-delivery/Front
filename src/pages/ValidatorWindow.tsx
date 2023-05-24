@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {Requests_for_validator} from "../components/requests_for_validator";
-import {mainObj_typeValidator, requests_for_validator} from "../imports_for_output/requests_for_validator";
+import {validationResponse} from "../imports_for_output/requests_for_validator";
+import { GetAllTemporaryAdresses } from "../services/ValidatorRequests";
 
 const decision = {
     YorN: "",
@@ -28,6 +29,20 @@ export function ValidatorWindow() {
 
     const [reqID, setReqID] = useState(-1)
 
+    const [validationAdresses, setValidationAdresses] = useState<validationResponse[]>([]);
+
+    
+    useEffect(()=>{
+    async function getValidationData(){
+        const data = await GetAllTemporaryAdresses();
+        setValidationAdresses(data);
+        console.log(data);
+    }
+    getValidationData();
+ 
+   },[]);
+
+
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(event.target.value);
     };
@@ -49,7 +64,7 @@ export function ValidatorWindow() {
         alert(JSON.stringify(decision))
     }
 
-    const [selectedItem, setSelectedItem] = useState<mainObj_typeValidator | null>(null)
+    const [selectedItem, setSelectedItem] = useState<validationResponse | null>(null)
 
     return (
         <>
@@ -93,7 +108,7 @@ export function ValidatorWindow() {
                         setRequestID={setReqID}
                         selectedItem={selectedItem}
                         setSelectedItem={setSelectedItem}
-                        list={requests_for_validator}
+                        list={validationAdresses}
                     />
                 </div>
                 <textarea

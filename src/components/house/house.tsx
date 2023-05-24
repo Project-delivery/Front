@@ -19,10 +19,10 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
 
     function filterList(items: houseModel[], text: string, selected: houseModel | null): houseModel[] {
         return items.filter((item) => {
-            if (selected && item.house.toLowerCase() === selected.house.toLowerCase()) {
+            if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
                 return true;
             }
-            return item.house.toLowerCase().includes(text.toLowerCase());
+            return item.name.toLowerCase().includes(text.toLowerCase());
         });
     }
 

@@ -4,6 +4,9 @@ import {userModel} from "../MainObject/UserDescription";
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEye} from "@fortawesome/free-solid-svg-icons";
+import { HashPassword } from '../services/PasswordHashing';
+import Login from './login/login';
+import { LoginUser } from '../services/AuthServices';
 
 
 // Объект, хранящий в себе валидные логин и пароль пользователя
@@ -16,7 +19,7 @@ let user: userModel = {
 //При нажатии кнопки "Next" указанные логин и пароль передаются объекту users
 //Ввод проверяется на наличие символов, пустая строка спровоцирует ошибку
 export function ModalAuth(): JSX.Element{
-    const onSubmit = (login: string, password: string, event: any) => {
+    const onSubmit = async (login: string, password: string, event: any) => {
         event.preventDefault()
         user.login = login
         user.password = password
@@ -24,18 +27,26 @@ export function ModalAuth(): JSX.Element{
         console.log(user.login)
         console.log('Password: ')
         console.log(user.password)
-        
-         navigate("/admin_window")
-         // Login(user.login, HashPassword(user.password))
-         // if(sessionStorage.getItem("role") === "admin"){
-         //     navigate("/admin_window")
-         // }else if(sessionStorage.getItem("role") === "worker"){
-         //     navigate("/worker_window")
-         // }else if(sessionStorage.getItem("role") === "validator"){
-         //     navigate("/validator_window")
-         // }else if(sessionStorage.getItem("role") === "notAuthorized"){
-         //    alert("Авторизация провалилась. Попробуйте снова или обратитесь к администратору.")
-         // }
+        console.log(HashPassword(user.password))
+         
+        if(await LoginUser(user.login, HashPassword(user.password)))
+        {
+         if(sessionStorage.getItem("role") == "admin"){
+            { 
+                navigate("/admin_window")
+            }
+         }else if(sessionStorage.getItem("role") == "worker"){
+           {    
+             navigate("/worker_window")
+            }
+         }else if(sessionStorage.getItem("role") == "validator"){
+            { 
+                navigate("/validator_window")
+            }
+         }else if(sessionStorage.getItem("role") == "notAuthorized"){
+            alert("Авторизация провалилась. Попробуйте снова или обратитесь к администратору.")
+         }
+        }
     }
 
     const [login, setLogin] = useState('')

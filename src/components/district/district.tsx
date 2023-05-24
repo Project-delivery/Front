@@ -31,10 +31,10 @@ interface Opened{
 
 /*Посмотреть нужна ли*/function filterList(items: districtModel[], text: string, selected: districtModel | null): districtModel[] {
     return items.filter((item) => {
-        if (selected && item.district.toLowerCase() === selected.district.toLowerCase()) {
+        if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
             return true;
         }
-        return item.district.toLowerCase().includes(text.toLowerCase());
+        return item.name.toLowerCase().includes(text.toLowerCase());
     });
 }
 
@@ -62,16 +62,18 @@ export default function District(
     }: Opened){
     const [selectedItem, setSelectedItem] = useState<districtModel | null>(null)
     const [districts,setDistricts] = useState<districtModel[]>([]); 
+   
+    
+    const getDistricts = async ()=>{
 
-    //молимся чтобы useEffect убрал ошибку бесконечного рендеринга
-    useEffect(()=>{
-        async function districtsInit(){
         const data = await GetDistrictsById(mainObj_which.idRegion);
+        console.log(mainObj_which.idRegion);
         setDistricts(data);
         console.log(data);
-        }
-        districtsInit();
-    },[]);
+    }
+    
+    
+
     const filteredList = useMemo(() =>
         filterList(districts, inputDistrict, selectedItem), [districts, inputDistrict, selectedItem])
 
@@ -87,6 +89,8 @@ export default function District(
 
     const handleClick = (event: any) => {
         event.preventDefault();
+
+        getDistricts();
         setOpen(true);
         setInputDistrict("")
         if(setDropdownCityOpen != undefined){

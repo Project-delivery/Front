@@ -13,7 +13,7 @@ interface listProps{
 
 export function Dropdown_house({filteredList, mainObj_which, setDropdownOpen, setSelectedItem, setInput}: listProps){
     const setMainObject = (input: houseModel) => {
-        mainObj_which.house = input.house
+        mainObj_which.house = input.name
         mainObj_which.idHouse = input.id
         console.log(input)
         
@@ -22,12 +22,12 @@ export function Dropdown_house({filteredList, mainObj_which, setDropdownOpen, se
     const listItems = filteredList.map((elem) => (
         <li key={elem.id} onClick={() => {
             setSelectedItem(elem)           // При нажатии на кнопку, выбранный объект передается в selectedItem,
-            setInput(elem.house)           // input(то есть значение в поле для ввода) устанавливается на значение компонента,
+            setInput(elem.name)           // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)        // список закрывается,
             setMainObject(elem)      // данные передаются в финальный объект, в данном случае нет id, так как тут region - не минимальная единица адреса
         }
         }>
-            {elem.house}
+            {elem.name}
         </li>
     ));
 

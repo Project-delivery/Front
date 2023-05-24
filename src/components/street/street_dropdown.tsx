@@ -15,7 +15,7 @@ export default function Dropdown_street({setHouseDisabled, mainObj_which, filter
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input: streetModel) => {
-        mainObj_which.street = input.street;
+        mainObj_which.street = input.name;
         mainObj_which.idStreet = input.id;
         console.log(input)
     }
@@ -25,7 +25,7 @@ export default function Dropdown_street({setHouseDisabled, mainObj_which, filter
     const listItems = filteredList.map((elem) => (
         <li key={elem.id} onClick={() => {
             setSelectedItem(elem)                  // При нажатии на кнопку, выбранный объект передается в selectedItem,
-            setInput(elem.street)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
+            setInput(elem.name)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
             if(setHouseDisabled != undefined){
                 setHouseDisabled(false)
@@ -33,7 +33,7 @@ export default function Dropdown_street({setHouseDisabled, mainObj_which, filter
             setMainObject(elem)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
         }
         }>
-            {elem.street}
+            {elem.name}
         </li>
     ));
 

@@ -39,6 +39,8 @@ export function CreateAddress(){
         infoJSON.city = mainObj_address.city
         infoJSON.region = mainObj_address.region
         infoJSON.district = mainObj_address.district
+
+        
         alert(JSON.stringify(mainObj_address))
         console.log(JSON.stringify(mainObj_address))
         setInputRegion("")

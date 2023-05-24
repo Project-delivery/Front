@@ -1,6 +1,6 @@
 export interface cityModel {
     id: number
-    city: string
+    name: string
 }
 
 export const cities = [{

@@ -15,7 +15,7 @@ export default function Dropdown_city({mainObj_which, setStreetDisabled, filtere
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input: cityModel) => {
-        mainObj_which.city = input.city;
+        mainObj_which.city = input.name;
         mainObj_which.idCity = input.id;
         console.log(input)
     }
@@ -25,13 +25,13 @@ export default function Dropdown_city({mainObj_which, setStreetDisabled, filtere
     const listItems = filteredList.map((elem) => (
         <li key={elem.id} onClick={() => {
             setSelectedItem(elem)                  // При нажатии на кнопку, выбранный объект передается в selectedItem,
-            setInput(elem.city)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
+            setInput(elem.name)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
             setStreetDisabled(false)
             setMainObject(elem)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
         }
         }>
-            {elem.city}
+            {elem.name}
         </li>
     ));
 

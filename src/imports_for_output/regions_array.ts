@@ -1,35 +1,35 @@
 export interface regionModel {
     id: number;
-    region: string;
+    name: string;
 }
 
 
 // Этот массив должен получаться запросом с бэка
 export const Regions: regionModel[] =  [{
     id: 1,
-    region: "Minsk"
+    name: "Minsk"
 }, {
     id: 2,
-    region: "Breeeest"
+    name: "Breeeest"
 }, {
     id: 3,
-    region: "Toronto"
+    name: "Toronto"
 }, {
     id: 4,
-    region: "Ottawa"
+    name: "Ottawa"
 }, {
     id: 5,
-    region: "Chicago"
+    name: "Chicago"
 }, {
     id: 6,
-    region: "Washington"
+    name: "Washington"
 }, {
     id: 7,
-    region: "Illinois"
+    name: "Illinois"
 }, {
     id: 8,
-    region: "Sydney"
+    name: "Sydney"
 }, {
     id: 9,
-    region: "New-York"
+    name: "New-York"
 }]

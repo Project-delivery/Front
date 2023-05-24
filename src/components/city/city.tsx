@@ -1,8 +1,8 @@
 import Dropdown_city from "./city_dropdown";
-import {cities, cityModel} from "../../imports_for_output/cities_array";
+import { cityModel} from "../../imports_for_output/cities_array";
 import React, {useEffect, useMemo, useState} from "react";
 import {mainObj_typeSearch} from "../../MainObject/mainObj_search";
-import {mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import {mainObj_address, mainObj_typeAddress} from "../../MainObject/mainObj_address";
 import { GetCitiesById } from "../../services/AddressService";
 
 interface Opened{
@@ -24,10 +24,10 @@ interface Opened{
 // (пример: введено "Min" - выпадающий список будет содержать поля "Minsk", "Minnesota" и т.д)
 function filterList(items: cityModel[], text: string, selected: cityModel | null): cityModel[] {
     return items.filter((item) => {
-        if (selected && item.city.toLowerCase() === selected.city.toLowerCase()) {
+        if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
             return true;
         }
-        return item.city.toLowerCase().includes(text.toLowerCase());
+        return item.name.toLowerCase().includes(text.toLowerCase());
     });
 }
 
@@ -40,20 +40,28 @@ export default function City(
     const [selectedItem, setSelectedItem] = useState<cityModel | null>(null)
     const [cities,setCities] = useState<cityModel[]>([]); 
 
-    //молимся чтобы useEffect убрал ошибку бесконечного рендеринга
-    useEffect(()=>{
-        async function citiesInit(){
+    const getCities = async ()=>{
         const data = await GetCitiesById(mainObj_which.idDistrict);
+        console.log(mainObj_which.idDistrict);
         setCities(data);
         console.log(data);
-        }
-        citiesInit();
-    },[]);
+    }
     const filteredList = useMemo(() =>
-        filterList(cities, inputCity, selectedItem), [cities, inputCity, selectedItem])
-
+    filterList(cities,inputCity,selectedItem), [cities, inputCity, selectedItem])
+     
+     
+        useEffect(() => {
+            if (!mainObj_address.city) {
+                setInputCity('');
+            }
+        });
+    
+        useEffect(() => {
+            setInputCity(inputCity);
+        });
     const handleClick = (event: any) => {
         event.preventDefault();
+        getCities()
         setOpen(true);
         setInputCity("");
         setStreetDisabled(true)

@@ -1,6 +1,6 @@
 export interface districtModel {
     id: number
-    district: string
+    name: string
 }
 
 

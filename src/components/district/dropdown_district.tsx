@@ -16,7 +16,7 @@ export default function Dropdown_district({ mainObj_which, setField4and5Disabled
 
     // Отправка выбранной информации в основной объект (финальный), который в конце будет отправлен на бэк.
     const setMainObject = (input:districtModel) => {
-        mainObj_which.district = input.district;
+        mainObj_which.district = input.name;
         mainObj_which.idDistrict = input.id;
         console.log(input);
     }
@@ -26,7 +26,7 @@ export default function Dropdown_district({ mainObj_which, setField4and5Disabled
     const listItems = filteredList.map((elem) => (
         <li key={elem.id} onClick={() => {
             setSelectedItem(elem)                  // При нажатии на кнопку, выбранный объект передается в selectedItem,
-            setInput(elem.district)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
+            setInput(elem.name)                // input(то есть значение в поле для ввода) устанавливается на значение компонента,
             setDropdownOpen(false)           // список закрывается,
             setMainObject(elem)  // данные передаются в финальный объект, в данном случае есть id, так как тут district - минимальная единица адреса
             if(setField4and5Disabled){
@@ -34,7 +34,7 @@ export default function Dropdown_district({ mainObj_which, setField4and5Disabled
             }
         }
         }>
-            {elem.district}
+            {elem.name}
         </li>
     ));
 

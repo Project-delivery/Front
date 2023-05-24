@@ -34,10 +34,10 @@ interface Opened{
 // (пример: введено "Min" - выпадающий список будет содержать поля "Minsk", "Minnesota" и т.д)
 function filterList(items: regionModel[], text: string, selected: regionModel | null): regionModel[] {
     return items.filter((item) => {
-        if (selected && item.region.toLowerCase() === selected.region.toLowerCase()) {
+        if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
             return true;
         }
-        return item.region.toLowerCase().includes(text.toLowerCase());
+        return item.name.toLowerCase().includes(text.toLowerCase());
     });
 }
 
@@ -68,14 +68,17 @@ export default function Region(
     }: Opened){
     const [selectedItem, setSelectedItem] = useState<regionModel | null>(null)
     const [regions,setRegions] = useState<regionModel[]>([]); 
+
     useEffect(()=>{
         async function regionsInit(){
         const data = await GetRegions();
+        
         setRegions(data);
         console.log(data);
         }
         regionsInit();
     },[]);
+
     const filteredList = useMemo(() =>
         filterList(regions, inputRegion, selectedItem), [regions, inputRegion, selectedItem])
 
@@ -144,7 +147,7 @@ export default function Region(
                         <Dropdown_region
                             mainObj_which={mainObj_which}
                             setField3Disabled={setAfterRegionDisabled}
-                            filteredList={filteredList}
+                            filteredList={regions}
                             setSelectedItem={setSelectedItem}
                             setInput={setInputRegion}
                             setDropdownOpen={setOpen} />

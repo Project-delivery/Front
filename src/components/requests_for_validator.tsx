@@ -1,12 +1,12 @@
 import React from "react";
-import {mainObj_typeValidator} from "../imports_for_output/requests_for_validator";
+import {validationResponse} from "../imports_for_output/requests_for_validator";
 
 
 interface requests{
     setRequestID: React.Dispatch<React.SetStateAction<number>>
-    selectedItem: mainObj_typeValidator | null
-    list: mainObj_typeValidator[]
-    setSelectedItem: React.Dispatch<React.SetStateAction<mainObj_typeValidator | null>>
+    selectedItem: validationResponse | null
+    list: validationResponse[]
+    setSelectedItem: React.Dispatch<React.SetStateAction<validationResponse | null>>
 }
 
 export function Requests_for_validator({setRequestID, selectedItem, list, setSelectedItem} : requests){
@@ -15,9 +15,9 @@ export function Requests_for_validator({setRequestID, selectedItem, list, setSel
         <li style={{fontWeight: selectedItem == elem ? 600 : 350,
             transition: "font-weight 0.05s ease-in",
         }}
-            key={elem.id}
+            key={elem.idStreet}
             onClick={() => {
-                setRequestID(elem.requestID)
+                setRequestID(elem.recordId)
                 setSelectedItem(elem)
         }
         }>

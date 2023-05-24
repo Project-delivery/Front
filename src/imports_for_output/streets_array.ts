@@ -1,6 +1,6 @@
 export interface streetModel {
     id: number
-    street: string
+    name: string
 }
 
 export const streets = [{
