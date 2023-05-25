@@ -1,6 +1,6 @@
 export interface validationResponse{
-    recordId:number
-    idStreet: number
+    id:number
+    street_id: number
     region: string
     district: string
     city: string
@@ -10,7 +10,19 @@ export interface validationResponse{
     is_valid:boolean
     comment:string
 }
-
+export const exampleValidationResponse:validationResponse =
+{
+    id:0,
+    street_id: 0,
+    region: "",
+    district: "",
+    city: "",
+    street: "",
+    house: "",
+    worker_id:0,
+    is_valid:false,
+    comment:""
+}
 // export let requests_for_validator : mainObj_typeValidator[] = [{
 //     requestID: 4,
 //     id: 0,

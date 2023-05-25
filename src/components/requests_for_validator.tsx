@@ -6,7 +6,7 @@ interface requests{
     setRequestID: React.Dispatch<React.SetStateAction<number>>
     selectedItem: validationResponse | null
     list: validationResponse[]
-    setSelectedItem: React.Dispatch<React.SetStateAction<validationResponse | null>>
+    setSelectedItem: React.Dispatch<React.SetStateAction<validationResponse >>
 }
 
 export function Requests_for_validator({setRequestID, selectedItem, list, setSelectedItem} : requests){
@@ -15,10 +15,11 @@ export function Requests_for_validator({setRequestID, selectedItem, list, setSel
         <li style={{fontWeight: selectedItem == elem ? 600 : 350,
             transition: "font-weight 0.05s ease-in",
         }}
-            key={elem.idStreet}
+            key={elem.street_id}
             onClick={() => {
-                setRequestID(elem.recordId)
+                setRequestID(elem.id)
                 setSelectedItem(elem)
+                
         }
         }>
             {JSON.stringify(elem)}

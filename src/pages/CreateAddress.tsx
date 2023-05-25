@@ -1,12 +1,14 @@
-import React, {useState} from "react";
+import  {useState} from "react";
 import Region from "../components/region/region";
 import District from "../components/district/district";
 import City from "../components/city/city";
 import Street from "../components/street/street";
 import {infoJSON} from "./ValidatorWindow";
 import {mainObj_address} from "../MainObject/mainObj_address";
-import {House} from "../components/house/house";
+
 import { RegisterUser } from "../services/RegisterUserService";
+import { AddAddress } from "../services/ValidatorRequests";
+import { House } from "../components/house/house";
 
 export function CreateAddress(){
 
@@ -33,15 +35,21 @@ export function CreateAddress(){
     const [houseDisabled, setHouseDisabled] = useState(true)
 
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         infoJSON.id = mainObj_address.id
         infoJSON.street = mainObj_address.street
         infoJSON.city = mainObj_address.city
         infoJSON.region = mainObj_address.region
         infoJSON.district = mainObj_address.district
-
-        
-        alert(JSON.stringify(mainObj_address))
+        console.log(mainObj_address)
+        let add:string = "add"
+        let f:boolean = false
+         if( await AddAddress(mainObj_address.region, mainObj_address.district, mainObj_address.city, mainObj_address.street, mainObj_address.house, mainObj_address.idStreet, f, add))
+         {
+            alert("Адресс отправлен во временную базу данных")    
+         }else{
+            alert("ЧТо-то пошло не так :(")
+         }         
         console.log(JSON.stringify(mainObj_address))
         setInputRegion("")
         setInputDistrict("")

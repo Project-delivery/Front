@@ -20,7 +20,6 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
             if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
                 return true;
             }
-
             return item.name.toLowerCase().includes(text.toLowerCase());
         });
     }
@@ -33,7 +32,6 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
         setOpen(true);
         setInputHouse("");
     }
-<<<<<<< HEAD
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -43,13 +41,6 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
         }
     };
 
-=======
-const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            event.currentTarget.blur();
-        }
-    };
->>>>>>> 7d402c6 (final)
     return (
         <form onSubmit={(event) => {
             event.preventDefault();
@@ -59,7 +50,6 @@ const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
                 <label className="label">
                     Дом
                     <input
-<<<<<<< HEAD
                         disabled={houseDisabled}
                         type="text"
                         className="selectField_1"
@@ -71,19 +61,6 @@ const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
                             setOpen(true)
                         }}
                         onKeyDown={handleKeyPress}
-=======
-                        onKeyDown={handleKeyPress}
-                        disabled={houseDisabled}
-                        type="number"
-                        className="selectField_1"
-                        placeholder="Введите дом"
-                        value={houseDisabled ? "" : inputHouse}
-                        onChange={(event) => {
-                            mainObj_address.house = event.target.value;
-                            setInputHouse(event.target.value)
-                            setOpen(true)
-                        }}
->>>>>>> 7d402c6 (final)
                         onClick={(event) => handleClick(event)}
                         style={{
                             pointerEvents : houseDisabled ? 'none' : 'inherit',

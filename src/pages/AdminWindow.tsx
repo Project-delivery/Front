@@ -1,11 +1,33 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import BackUpValidDataBase from "../services/BackUpRequests";
 export function AdminWindow(){
 
     const handleClick = () => {
         //здесь должен быть какой-то запрос
     }
 
+    // function backUpValidDataBase
+    //  {
+    //     BackUpValidDataBase()
+
+    //     const jsonData = JSON.stringify(data);
+    //     const downloadLink = document.createElement('a')
+    //     const fileBlob = new Blob([jsonData], {type:'application/json'})
+    //     const fileURL = URL.createObjectURL(fileBlob);
+
+    //     downloadLink.href = fileURL;
+    //     downloadLink.download = 'data.json'
+
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
+
+    //     document.body.removeChild(downloadLink);
+    //  })
+    //  .catch(error=>{
+    //     convertCompilerOptionsFromJson.log
+    //  })
+    // } 
     return (
         <>
             <div

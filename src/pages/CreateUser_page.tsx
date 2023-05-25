@@ -30,6 +30,7 @@ export function CreateUserPage() {
 
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
     const handleSubmit = () => {
+        //ебаный рот
         RegisterUser(mainObject.login,HashPassword(mainObject.password),mainObject.role,mainObject.idDistrict)
         alert(JSON.stringify(mainObject))
         console.log(JSON.stringify(mainObject))

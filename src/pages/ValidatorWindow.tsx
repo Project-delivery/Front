@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import {Requests_for_validator} from "../components/requests_for_validator";
-import {validationResponse} from "../imports_for_output/requests_for_validator";
-import { GetAllTemporaryAdresses } from "../services/ValidatorRequests";
+import {exampleValidationResponse, validationResponse} from "../imports_for_output/requests_for_validator";
+import { AddAddress, GetAllTemporaryAdresses } from "../services/ValidatorRequests";
+import { ValidateAddress } from "../services/ValidationAddressRequest";
 
 const decision = {
     YorN: "",
@@ -47,24 +48,40 @@ export function ValidatorWindow() {
         setSelectedOption(event.target.value);
     };
 
-    const handleClick = (radio: string, comm: string) => {
+    const handleClick = async (radio: string, comm: string) => {
         if(selectedOption === "option1"){
             decision.YorN = "Одобрено"
+            console.log(selectedItem);
+            ValidateAddress(selectedItem.street_id, selectedItem.house, selectedItem.id)
         }
         else {
             decision.YorN = "Отказано"
+            let f:boolean = false;
+            console.log("1")
+            console.log(selectedItem)
+            console.log("2")
+            console.log(selectedItem.street_id)   
+            
+            console.log(comment)    
+           if(await AddAddress(selectedItem.region, selectedItem.district, selectedItem.city, selectedItem.street, selectedItem.house, selectedItem.street_id, f ,comment,selectedItem.id))
+           {
+            alert("Успешно добавлено")
+           }else{
+            alert("Не добавлено")
+            
+           }
         }
         decision.commentary = comm
         decision.validatorID = 999
         decision.requestID = reqID
         setSelectedOption("")
-        setSelectedItem(null)
+        setSelectedItem(exampleValidationResponse)
         setReqID(-1)
         setComment("")
         alert(JSON.stringify(decision))
     }
 
-    const [selectedItem, setSelectedItem] = useState<validationResponse | null>(null)
+    const [selectedItem, setSelectedItem] = useState<validationResponse>(exampleValidationResponse)
 
     return (
         <>

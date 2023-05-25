@@ -1,9 +1,23 @@
-import { mainObj_typeAddress } from "../MainObject/mainObj_address";
 import { validationResponse } from "../imports_for_output/requests_for_validator";
 import { API_URL } from "../psevdoEnv";
 
 
-export async function AddValidationRequest(region:string, district:string, city:string, street:string, house:string, street_id:number,is_valid:boolean, comment:string ): Promise<Response>
+export async function AddAddress(region:string, district:string, city:string, street:string, house:string, street_id:number,is_valid:boolean, comment:string, OldId?:number ):Promise<boolean>
+{
+
+  console.log("3")
+    const response = await AddAddressRequest(region, district, city, street, house, street_id,is_valid, comment,OldId);
+    if(response.ok)
+    {
+    return true; 
+    }else{   
+     alert(response.status)
+    return false; 
+    }
+
+}
+
+ async function AddAddressRequest(region:string, district:string, city:string, street:string, house:string, street_id:number,is_valid:boolean, comment:string, OldId?:number ): Promise<Response>
 {
     
   const formData = new FormData();
@@ -16,7 +30,13 @@ export async function AddValidationRequest(region:string, district:string, city:
   formData.append("street_id", street_id.toString());
   formData.append("is_valid", is_valid.toString());
   formData.append("comment", comment);
-        const response = await fetch(`${API_URL}/Account/Register` , {
+  if(OldId)
+  {
+    formData.append("OldId", OldId.toString());
+    
+  }
+  //console.log(formData);
+        const response = await fetch(`${API_URL}/Validator/Add` , {
           method: "POST",
           headers: {
             "Accept": "application/json",
@@ -28,7 +48,7 @@ export async function AddValidationRequest(region:string, district:string, city:
         return response;
 } 
 
-export async function GetAllTemporaryAdressesRequest(): Promise<Response>
+ async function GetAllTemporaryAdressesRequest(): Promise<Response>
 {
 
     
@@ -61,18 +81,3 @@ export async function GetAllTemporaryAdresses():Promise<validationResponse[]>
 }
 
 
-export function AddResponseToTemporaryAdresses(region:string, district:string, city:string, street:string, house:string, worker_id:number,is_valid:boolean, comment:string )
-{
-
-//     const response = await AddResponseToTemporaryAdressesRequest(region, district, city, street, house, worker_id,is_valid, comment);
-//     if(response.ok)
-//     {
-//     let data = await response.json();
-//     return data; 
-//     }else{
-        
-//         alert(response.status)
-//         return [];
-//     }
-
-}
