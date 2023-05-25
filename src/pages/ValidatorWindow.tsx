@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import {Requests_for_validator} from "../components/requests_for_validator";
 import {exampleValidationResponse, validationResponse} from "../imports_for_output/requests_for_validator";
-import { AddAddress, GetAllTemporaryAdresses } from "../services/ValidatorRequests";
+import { AddAddress, GetAllTemporaryAdressesRequest } from "../services/ValidatorRequests";
 import { ValidateAddress } from "../services/ValidationAddressRequest";
+import {useNavigate} from "react-router-dom";
 
 const decision = {
     YorN: "",
@@ -32,12 +33,27 @@ export function ValidatorWindow() {
 
     const [validationAdresses, setValidationAdresses] = useState<validationResponse[]>([]);
 
+    const navigate = useNavigate()
+
+    const exit = () => {
+        sessionStorage.removeItem("access_token");
+        sessionStorage.removeItem("role")
+        console.log(sessionStorage.getItem("access_token"))
+        navigate("/")
+    }
+
     
     useEffect(()=>{
     async function getValidationData(){
-        const data = await GetAllTemporaryAdresses();
-        setValidationAdresses(data);
-        console.log(data);
+        const response = await GetAllTemporaryAdressesRequest();
+        if(response.status == 401)
+        {
+            exit();
+        }else
+        {
+            setValidationAdresses(await response.json());
+        }
+
     }
     getValidationData();
  
@@ -51,18 +67,11 @@ export function ValidatorWindow() {
     const handleClick = async (radio: string, comm: string) => {
         if(selectedOption === "option1"){
             decision.YorN = "Одобрено"
-            console.log(selectedItem);
             ValidateAddress(selectedItem.street_id, selectedItem.house, selectedItem.id)
         }
         else {
             decision.YorN = "Отказано"
             let f:boolean = false;
-            console.log("1")
-            console.log(selectedItem)
-            console.log("2")
-            console.log(selectedItem.street_id)   
-            
-            console.log(comment)    
            if(await AddAddress(selectedItem.region, selectedItem.district, selectedItem.city, selectedItem.street, selectedItem.house, selectedItem.street_id, f ,comment,selectedItem.id))
            {
             alert("Успешно добавлено")
@@ -78,7 +87,6 @@ export function ValidatorWindow() {
         setSelectedItem(exampleValidationResponse)
         setReqID(-1)
         setComment("")
-        alert(JSON.stringify(decision))
     }
 
     const [selectedItem, setSelectedItem] = useState<validationResponse>(exampleValidationResponse)
@@ -128,6 +136,11 @@ export function ValidatorWindow() {
                         list={validationAdresses}
                     />
                 </div>
+                <span className="btn_exit_val"
+                        onClick={() => exit()}
+                >
+                    Выйти
+                </span>
                 <textarea
                     className="commentary"
                     value={comment}

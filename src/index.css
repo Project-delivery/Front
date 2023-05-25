@@ -362,7 +362,7 @@ code {
 
 .link:hover {
   color: #000000;
-  background-color: lightgray;
+  background-color: azure;
 }
 
 .radioBtn{
@@ -541,5 +541,105 @@ code {
 
 .btn_backup:hover {
   color: #000000;
-  background-color: lightgray;
+  background-color: azure;
+}
+
+.link_back{
+  height: 15px;
+  width: 20px;
+  margin-top: 5px;
+  position: absolute;
+  font-family: "Arial Rounded MT Bold";
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  color: #000000;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.link_back:hover{
+  color: dimgray;
+ }
+
+.link_back:active{
+  transition: transform 0.1s ease-in;
+  transform: translateY(0.5px);
+}
+
+.btn_new{
+  height: 50px;
+  width: 250px;
+  font-family: "Arial Rounded MT Bold";
+  margin: auto;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  color: #000000;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btn_new:hover {
+  color: #000000;
+  background-color: azure;
+}
+
+.btn_exit{
+  height: 15px;
+  width: 20px;
+  border: none;
+  margin-top: 5px;
+  margin-left: 5px;
+  position: absolute;
+  font-family: "Arial Rounded MT Bold";
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: gray;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btn_exit:hover{
+  color: #000000;
+}
+
+.btn_exit_val{
+  width: 0;
+  height: 0;
+  border: none;
+  margin-top: 95px;
+  margin-left: 5px;
+  position: absolute;
+  font-family: "Arial Rounded MT Bold";
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: gray;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btn_exit_val{
+  color: #000000;
 }

@@ -7,6 +7,9 @@ import Login from "../components/login/login";
 import Password from "../components/password/password";
 import { RegisterUser } from "../services/RegisterUserService";
 import { HashPassword } from "../services/PasswordHashing";
+import {Link} from "react-router-dom";
+import {faCircleArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export function CreateUserPage() {
 
@@ -69,6 +72,9 @@ export function CreateUserPage() {
             }} className="background"
             />
             <div className="window">
+                <Link to="/admin_window" className="link_back">
+                    <FontAwesomeIcon icon={faCircleArrowLeft} />
+                </Link>
                 <Role
                     inputRole={inputRole}
                     setInputRole={setInputRole}

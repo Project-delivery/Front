@@ -1,14 +1,17 @@
-import  {useState} from "react";
+import {useEffect, useState} from "react";
 import Region from "../components/region/region";
 import District from "../components/district/district";
 import City from "../components/city/city";
 import Street from "../components/street/street";
 import {infoJSON} from "./ValidatorWindow";
 import {mainObj_address} from "../MainObject/mainObj_address";
-
 import { RegisterUser } from "../services/RegisterUserService";
 import { AddAddress } from "../services/ValidatorRequests";
 import { House } from "../components/house/house";
+import {Link} from "react-router-dom";
+import {faCircleArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {GetRegions} from "../services/AddressService";
 
 export function CreateAddress(){
 
@@ -41,7 +44,6 @@ export function CreateAddress(){
         infoJSON.city = mainObj_address.city
         infoJSON.region = mainObj_address.region
         infoJSON.district = mainObj_address.district
-        console.log(mainObj_address)
         let add:string = "add"
         let f:boolean = false
          if( await AddAddress(mainObj_address.region, mainObj_address.district, mainObj_address.city, mainObj_address.street, mainObj_address.house, mainObj_address.idStreet, f, add))
@@ -49,8 +51,7 @@ export function CreateAddress(){
             alert("Адресс отправлен во временную базу данных")    
          }else{
             alert("ЧТо-то пошло не так :(")
-         }         
-        console.log(JSON.stringify(mainObj_address))
+         }
         setInputRegion("")
         setInputDistrict("")
         setInputCity("")
@@ -61,6 +62,23 @@ export function CreateAddress(){
         setStreetDisabled(true)
         setHouseDisabled(true)
     }
+
+    useEffect(()=>{
+        if(sessionStorage.getItem("role") === "admin"){
+            setWhereTo("/admin_window")
+        }
+        else if(sessionStorage.getItem("role") === "worker"){
+            setWhereTo("/worker_window")
+        }
+        else if(sessionStorage.getItem("role") === "validator"){
+            setWhereTo("/validator_window")
+        }
+        else{
+            setWhereTo("/")
+        }
+    },[]);
+
+    const [whereTo, setWhereTo] = useState("")
 
     const [inputRegion, setInputRegion] = useState("")
 
@@ -86,6 +104,9 @@ export function CreateAddress(){
             }}  className="background"
             />
             <div className="window" style={{height: 330}}>
+                <Link to={whereTo} className="link_back">
+                    <FontAwesomeIcon icon={faCircleArrowLeft} />
+                </Link>
                 <Region
                     setDropdownDistrictOpen={setOpenDistrict}
                     setDropdownStreetOpen={setOpenStreet}

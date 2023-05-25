@@ -1,9 +1,12 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Region from "../components/region/region";
 import District from "../components/district/district";
 import City from "../components/city/city";
 import {mainObj_search} from "../MainObject/mainObj_search";
 import Street from "../components/street/street";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {Link} from "react-router-dom";
 
 export function Search_page() {
 
@@ -30,8 +33,6 @@ export function Search_page() {
 
     // Вместо простого alert, здесь должна быть функция отправки формы на бэк
     const handleSubmit = () => {
-        alert(JSON.stringify(mainObj_search))
-        console.log(JSON.stringify(mainObj_search))
         setInputRegion("")
         setInputDistrict("")
         setInputCity("")
@@ -40,6 +41,20 @@ export function Search_page() {
         setAfterDistrictDisabled(true)
         setStreetDisabled(true)
     }
+
+    useEffect(()=>{
+        if(sessionStorage.getItem("role") === "admin"){
+            setWhereTo("/admin_window")
+        }
+        else if(sessionStorage.getItem("role") === "worker"){
+            setWhereTo("/worker_window")
+        }
+        else {
+            setWhereTo("/validator_window")
+        }
+    },[]);
+
+    const [whereTo, setWhereTo] = useState("")
 
     const [inputRegion, setInputRegion] = useState("")
 
@@ -62,6 +77,9 @@ export function Search_page() {
             }}  className="background"
             />
             <div className="window" style={{height: 275}}>
+                <Link to={whereTo} className="link_back">
+                    <FontAwesomeIcon icon={faCircleArrowLeft} />
+                </Link>
                 <Region
                     setDropdownDistrictOpen={setOpenDistrict}
                     setDropdownCityOpen={setOpenCity}

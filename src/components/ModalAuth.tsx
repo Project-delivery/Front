@@ -10,7 +10,7 @@ import { LoginUser } from '../services/AuthServices';
 
 
 // Объект, хранящий в себе валидные логин и пароль пользователя
-let user: userModel = {
+export let user: userModel = {
     login: '',
     password: ''
 }
@@ -23,24 +23,19 @@ export function ModalAuth(): JSX.Element{
         event.preventDefault()
         user.login = login
         user.password = password
-        console.log('Login: ')
-        console.log(user.login)
-        console.log('Password: ')
-        console.log(user.password)
-        console.log(HashPassword(user.password))
-         
+
         if(await LoginUser(user.login, HashPassword(user.password)))
         {
          if(sessionStorage.getItem("role") == "admin"){
-            { 
+            {
                 navigate("/admin_window")
             }
          }else if(sessionStorage.getItem("role") == "worker"){
-           {    
+             {
              navigate("/worker_window")
             }
          }else if(sessionStorage.getItem("role") == "validator"){
-            { 
+            {
                 navigate("/validator_window")
             }
          }else if(sessionStorage.getItem("role") == "notAuthorized"){
@@ -129,7 +124,7 @@ export function ModalAuth(): JSX.Element{
                         {checkValidPassword(password)}
                     </div>
                     <button
-                        className="button_submit"
+                        className="btn_new"
                         style={{width: 100, marginLeft: 201}}
                         onClick={(event) => onSubmit(login, password, event)}
                     >

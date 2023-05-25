@@ -67,9 +67,7 @@ export default function District(
     const getDistricts = async ()=>{
 
         const data = await GetDistrictsById(mainObj_which.idRegion);
-        console.log(mainObj_which.idRegion);
         setDistricts(data);
-        console.log(data);
     }
     
     

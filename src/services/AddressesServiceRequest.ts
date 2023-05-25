@@ -20,7 +20,6 @@ export async function GetDistrictsByIdRequest(idRegion:number): Promise<Response
 {
     const formData = new FormData();
     formData.append("Name", JSON.stringify(idRegion));
-    console.log(formData);
         const response = await fetch(`${API_URL}/Adress/GetDistrictsById` , {
             method: "POST",
             headers: { 'Access-Control-Allow-Origin':'*',
@@ -37,7 +36,6 @@ export async function GetCitiesByIdRequest(idDistrict:number): Promise<Response>
 {
     const formData = new FormData();
     formData.append("Name", JSON.stringify(idDistrict));
-    console.log(formData);
         const response = await fetch(`${API_URL}/Adress/GetCitiesById` , {
             method: "POST",
             headers: { 'Access-Control-Allow-Origin':'*',
@@ -53,7 +51,6 @@ export async function GetStreetsByIdRequest(idCity:number): Promise<Response>
 {
     const formData = new FormData();
     formData.append("Name", JSON.stringify(idCity));
-    console.log(formData);
         const response = await fetch(`${API_URL}/Adress/GetStreetsById` , {
             method: "POST",
             headers: { 'Access-Control-Allow-Origin':'*',
@@ -69,7 +66,6 @@ export async function GetHousesByIdRequest(idStreet:number): Promise<Response>
 {
     const formData = new FormData();
     formData.append("Name", JSON.stringify(idStreet));
-    console.log(formData);
         const response = await fetch(`${API_URL}/Adress/GetHouseById` , {
             method: "POST",
             headers: { 'Access-Control-Allow-Origin':'*',

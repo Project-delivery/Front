@@ -42,9 +42,7 @@ export default function City(
 
     const getCities = async ()=>{
         const data = await GetCitiesById(mainObj_which.idDistrict);
-        console.log(mainObj_which.idDistrict);
         setCities(data);
-        console.log(data);
     }
     const filteredList = useMemo(() =>
     filterList(cities,inputCity,selectedItem), [cities, inputCity, selectedItem])

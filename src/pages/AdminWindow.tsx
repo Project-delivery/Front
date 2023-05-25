@@ -1,39 +1,95 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import BackUpValidDataBase from "../services/BackUpRequests";
+import {Link, useNavigate} from "react-router-dom";
+import { AddAddress } from "../services/ValidatorRequests";
+import BackUpDataBase from "../services/BackUpRequests";
 export function AdminWindow(){
+    const navigate = useNavigate()
+   
+        async function backUpValidDataBase()
+        {
+           const response = await BackUpDataBase(true);
+           console.log(response);
+         
+           if(response.status == 200)
+           {
+           const fileBlob = await response.blob();
+           const fileURL = URL.createObjectURL(fileBlob);
+   
+           const downloadLink = document.createElement('a')
+          
+           downloadLink.href = fileURL;
+           downloadLink.download = 'BackUpedDB.json'
+   
+           document.body.appendChild(downloadLink);
+           downloadLink.click();
+           downloadLink.remove();
+        }else if(response.status == 401)
+        {
+          
+            const exit = () => {
+                sessionStorage.removeItem("access_token");
+                sessionStorage.removeItem("role")
+                console.log(sessionStorage.getItem("access_token"))
+                navigate("/")
+            }
+            exit();
+        }
+      
+        }
+    
 
-    const handleClick = () => {
-        //здесь должен быть какой-то запрос
+    async function backUpTempDataBase()
+        {
+           const response = await BackUpDataBase(false);
+           console.log(response);
+           if(response.status == 200)
+           {
+           const fileBlob = await response.blob();
+           const fileURL = URL.createObjectURL(fileBlob);
+   
+           const downloadLink = document.createElement('a')
+          
+           downloadLink.href = fileURL;
+           downloadLink.download = 'BackUpedDB.json'
+           
+           document.body.appendChild(downloadLink);
+           downloadLink.click();
+           downloadLink.remove();
+           
+        }else if(response.status == 401)
+        {
+          
+            const exit = () => {
+                sessionStorage.removeItem("access_token");
+                sessionStorage.removeItem("role")
+                console.log(sessionStorage.getItem("access_token"))
+                navigate("/")
+            }
+            exit();
+        }
     }
 
-    // function backUpValidDataBase
-    //  {
-    //     BackUpValidDataBase()
+    const exit = () => {
+        sessionStorage.removeItem("access_token");
+        sessionStorage.removeItem("role")
+        navigate("/")
+    }
+   
+    function handleClick(): void {
+        throw new Error("Function not implemented.");
+    }
 
-    //     const jsonData = JSON.stringify(data);
-    //     const downloadLink = document.createElement('a')
-    //     const fileBlob = new Blob([jsonData], {type:'application/json'})
-    //     const fileURL = URL.createObjectURL(fileBlob);
-
-    //     downloadLink.href = fileURL;
-    //     downloadLink.download = 'data.json'
-
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-
-    //     document.body.removeChild(downloadLink);
-    //  })
-    //  .catch(error=>{
-    //     convertCompilerOptionsFromJson.log
-    //  })
-    // } 
     return (
         <>
             <div
                 className="background_authorize"
             />
             <div className="window_authorize">
+                <button className="btn_exit"
+                        onClick={() => exit()}
+                >
+                    Выйти
+                </button>
                 <Link to="/search" className="link">
                     Поиск
                 </Link>
@@ -45,13 +101,13 @@ export function AdminWindow(){
                 </Link>
                 <button
                     className="btn_backup"
-                    onClick={() => handleClick()}
+                    onClick={() =>  backUpValidDataBase()}
                 >
                     Backup отвалидированной базы данных
                 </button>
                 <button
                     className="btn_backup"
-                    onClick={() => handleClick()}
+                    onClick={() => backUpTempDataBase()}
                 >
                     Backup временной базы данных
                 </button>

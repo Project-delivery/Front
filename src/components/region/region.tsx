@@ -7,6 +7,8 @@ import {mainObj_typeCreate} from "../../MainObject/main_obj";
 import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { GetRegions } from "../../services/AddressService";
+import GetRegionsRequest from "../../services/AddressesServiceRequest";
+import {useNavigate} from "react-router-dom";
 
 interface Opened{
     setDropdownDistrictOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -67,14 +69,21 @@ export default function Region(
         setOpen
     }: Opened){
     const [selectedItem, setSelectedItem] = useState<regionModel | null>(null)
-    const [regions,setRegions] = useState<regionModel[]>([]); 
+    const [regions,setRegions] = useState<regionModel[]>([]);
+
+    const navigate = useNavigate()
 
     useEffect(()=>{
         async function regionsInit(){
-        const data = await GetRegions();
-        
-        setRegions(data);
-        console.log(data);
+        const data = await GetRegionsRequest();
+        if(data.status == 401)
+        {
+            navigate("/")
+            sessionStorage.removeItem("role")
+        }
+        else {
+            setRegions(await data.json());
+        }
         }
         regionsInit();
     },[]);

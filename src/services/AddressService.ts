@@ -4,23 +4,21 @@ import { cityModel } from "../imports_for_output/cities_array";
 import { streetModel } from "../imports_for_output/streets_array";
 import { houseModel } from "../imports_for_output/houses_array";
 import GetRegionsRequest, {  GetCitiesByIdRequest, GetDistrictsByIdRequest, GetHousesByIdRequest, GetStreetsByIdRequest } from "./AddressesServiceRequest";
-
+import {useNavigate} from "react-router-dom";
 
 export async function GetRegions():Promise<regionModel[]>
 {
+
+    const navigate = useNavigate()
         const response = await GetRegionsRequest();
-        
-        if(response.ok == true)
-        {
         const data:regionModel[] = await response.json();
-        return data; 
-        }else{
-            alert(response.status)
-            //возможно здесь нужно сделать проверку на роль
-            // пока не знаю как это оформить
-            return [];
-        }
-       
+    if(response.status == 401)
+    {
+        navigate("/")
+        sessionStorage.removeItem("role")
+    }
+    return data
+
 } 
 
 export async function GetDistrictsById(idRegion:number):Promise<districtModel[]>

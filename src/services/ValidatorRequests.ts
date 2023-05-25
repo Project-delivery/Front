@@ -5,7 +5,6 @@ import { API_URL } from "../psevdoEnv";
 export async function AddAddress(region:string, district:string, city:string, street:string, house:string, street_id:number,is_valid:boolean, comment:string, OldId?:number ):Promise<boolean>
 {
 
-  console.log("3")
     const response = await AddAddressRequest(region, district, city, street, house, street_id,is_valid, comment,OldId);
     if(response.ok)
     {
@@ -48,7 +47,7 @@ export async function AddAddress(region:string, district:string, city:string, st
         return response;
 } 
 
- async function GetAllTemporaryAdressesRequest(): Promise<Response>
+ export async function GetAllTemporaryAdressesRequest(): Promise<Response>
 {
 
     
@@ -69,8 +68,7 @@ export async function GetAllTemporaryAdresses():Promise<validationResponse[]>
     if(response.ok)
     {
     let data:validationResponse[] = await response.json();
-    
-    console.log(data)
+
     return data; 
     }else{
         

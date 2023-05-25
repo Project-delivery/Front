@@ -19,12 +19,8 @@ export async function LoginUser(login:string, password:string):Promise<boolean> 
     // если запрос прошел нормально
     if (response.ok === true) 
     {
-        console.log(data)
         sessionStorage.setItem("access_token", data.access_token);
         sessionStorage.setItem("role", data.role);
-        console.log(sessionStorage.getItem("access_token"));
-        console.log("Role")
-        console.log(sessionStorage.getItem("role"))
         return true;
     }else{
         sessionStorage.setItem("role", "notAuthorized");

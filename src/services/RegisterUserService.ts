@@ -25,7 +25,6 @@ export async function RegisterUser(login:string, password:string, role:string, i
         if(response.ok)
         {
           const data = await response.json()
-          console.log(data);
           if(data == true)
           {
           alert(`User ${login} успешно создан`);
