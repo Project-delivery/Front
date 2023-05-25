@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import GetRegionsRequest from "../services/AddressesServiceRequest";
 export function WorkerWindow(){
 
     const navigate = useNavigate()
@@ -10,6 +11,18 @@ export function WorkerWindow(){
         sessionStorage.removeItem("role")
         navigate("/")
     }
+
+    useEffect(()=>{
+        async function regionsInit(){
+            const data = await GetRegionsRequest();
+            if(data.status == 401)
+            {
+                navigate("/")
+                sessionStorage.removeItem("role")
+            }
+        }
+        regionsInit();
+    },[]);
 
     return (
         <>

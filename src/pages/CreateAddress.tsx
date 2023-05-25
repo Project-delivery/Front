@@ -5,13 +5,11 @@ import City from "../components/city/city";
 import Street from "../components/street/street";
 import {infoJSON} from "./ValidatorWindow";
 import {mainObj_address} from "../MainObject/mainObj_address";
-import { RegisterUser } from "../services/RegisterUserService";
 import { AddAddress } from "../services/ValidatorRequests";
-import { House } from "../components/house/house";
+import { House } from "../components/house/house (2)";
 import {Link} from "react-router-dom";
 import {faCircleArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {GetRegions} from "../services/AddressService";
 
 export function CreateAddress(){
 

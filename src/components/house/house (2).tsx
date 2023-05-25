@@ -1,7 +1,8 @@
 import React, {useMemo, useState} from "react";
-import {houseModel, houses} from "../../imports_for_output/houses_array";
-import {Dropdown_house} from "./house_dropdown";
+import {houseModel} from "../../imports_for_output/houses_array";
+import {Dropdown_house} from "./house_dropdown (2)";
 import {mainObj_address, mainObj_typeAddress} from "../../MainObject/mainObj_address";
+import {GetHousesById} from "../../services/AddressService";
 
 interface Opened{
     inputHouse: string
@@ -14,13 +15,21 @@ interface Opened{
 
 export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, setOpen, open}: Opened){
     const [selectedItem, setSelectedItem] = useState<houseModel | null>(null)
+    const [houses,setHouses] = useState<houseModel[]>([]);
+
+
+    const getHouses = async ()=>{
+        const data = await GetHousesById(mainObj_which.idStreet);
+        console.log(JSON.stringify(data))
+        setHouses(data);
+        }
 
     function filterList(items: houseModel[], text: string, selected: houseModel | null): houseModel[] {
         return items.filter((item) => {
-            if (selected && item.name.toLowerCase() === selected.name.toLowerCase()) {
+            if (selected && item.numberHouse.toLowerCase() === selected.numberHouse.toLowerCase()) {
                 return true;
             }
-            return item.name.toLowerCase().includes(text.toLowerCase());
+            return item.numberHouse.toLowerCase().includes(text.toLowerCase());
         });
     }
 
@@ -31,6 +40,7 @@ export function House({inputHouse, setInputHouse, mainObj_which, houseDisabled, 
         event.preventDefault();
         setOpen(true);
         setInputHouse("");
+        getHouses()
     }
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

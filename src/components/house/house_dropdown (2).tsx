@@ -14,7 +14,7 @@ export function Dropdown_house({filteredList, mainObj_which, setDropdownOpen, se
 
     const listItems = filteredList.map((elem) => (
         <li key={elem.id}>
-            {elem.name}
+            {elem.numberHouse}
         </li>
     ));
 

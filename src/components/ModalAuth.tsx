@@ -124,8 +124,9 @@ export function ModalAuth(): JSX.Element{
                         {checkValidPassword(password)}
                     </div>
                     <button
+                        disabled={login.length == 0 || password.length == 0}
                         className="btn_new"
-                        style={{width: 100, marginLeft: 201}}
+                        style={{width: 100, marginLeft: 201, cursor: login.length > 0 && password.length > 0 ? "pointer" : "default"}}
                         onClick={(event) => onSubmit(login, password, event)}
                     >
                         Подтвердить

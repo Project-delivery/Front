@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { AddAddress } from "../services/ValidatorRequests";
 import BackUpDataBase from "../services/BackUpRequests";
+import GetRegionsRequest from "../services/AddressesServiceRequest";
 export function AdminWindow(){
     const navigate = useNavigate()
    
@@ -68,6 +69,18 @@ export function AdminWindow(){
             exit();
         }
     }
+
+    useEffect(()=>{
+        async function regionsInit(){
+            const data = await GetRegionsRequest();
+            if(data.status == 401)
+            {
+                navigate("/")
+                sessionStorage.removeItem("role")
+            }
+        }
+        regionsInit();
+    },[]);
 
     const exit = () => {
         sessionStorage.removeItem("access_token");
